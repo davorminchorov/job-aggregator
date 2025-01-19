@@ -15,6 +15,12 @@ class SyncJobPositionsFromSources implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $queue = 'job-positions';
+
+    public $tries = 3;
+
+    public $timeout = 60;
+
     /**
      * Create a new job instance.
      */
