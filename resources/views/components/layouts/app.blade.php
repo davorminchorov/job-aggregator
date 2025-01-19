@@ -23,7 +23,16 @@
                         </a>
                     </div>
                 </div>
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-4">
+                    <!-- Auth Links -->
+                    <div class="hidden sm:flex sm:items-center sm:space-x-4">
+                        <a href="{{ route('login') }}" class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300">
+                            Sign in
+                        </a>
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                            Sign up
+                        </a>
+                    </div>
                     <!-- Mobile menu button -->
                     <div class="sm:hidden">
                         <button
@@ -86,6 +95,16 @@
                 <a href="{{ route('categories.index') }}" class="block pl-3 pr-4 py-2 text-base font-medium {{ request()->routeIs('categories.*') ? 'text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/50 border-l-4 border-indigo-500' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white' }}">
                     Categories
                 </a>
+                <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
+                    <div class="space-y-1">
+                        <a href="{{ route('login') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            Sign in
+                        </a>
+                        <a href="{{ route('register') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white">
+                            Sign up
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
