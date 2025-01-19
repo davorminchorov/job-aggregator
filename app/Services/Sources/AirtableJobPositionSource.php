@@ -13,7 +13,7 @@ class AirtableJobPositionSource extends AbstractJobPositionSource
     public function sync(JobPositionSource $source): void
     {
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . trim($source->credentials['api_key']),
+            'Authorization' => 'Bearer ' . trim($source->credentials['pat']),
             'Content-Type' => 'application/json',
         ])->get(self::API_URL . '/' . trim($source->credentials['base_id']) . '/' . trim($source->credentials['table_id']), [
             'maxRecords' => 100,
@@ -50,13 +50,13 @@ class AirtableJobPositionSource extends AbstractJobPositionSource
 
     public function validateCredentials(array $credentials): bool
     {
-        if (! isset($credentials['api_key'], $credentials['base_id'], $credentials['table_id'])) {
+        if (! isset($credentials['pat'], $credentials['base_id'], $credentials['table_id'])) {
             return false;
         }
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . trim($credentials['api_key']),
+                'Authorization' => 'Bearer ' . trim($credentials['pat']),
                 'Content-Type' => 'application/json',
             ])->get(self::API_URL . '/' . trim($credentials['base_id']) . '/' . trim($credentials['table_id']), [
                 'maxRecords' => 1,

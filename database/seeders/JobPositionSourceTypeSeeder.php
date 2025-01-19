@@ -17,7 +17,7 @@ class JobPositionSourceTypeSeeder extends Seeder
             'key' => 'airtable',
             'description' => 'Import job positions from Airtable bases',
             'required_fields' => [
-                'api_key' => 'string',
+                'pat' => 'string',
                 'base_id' => 'string',
                 'table_id' => 'string',
             ],
