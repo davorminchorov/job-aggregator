@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Livewire\JobPositions;
-use App\Livewire\JobPositionDetails;
 use App\Livewire\Categories;
+use App\Livewire\JobPositionDetails;
+use App\Livewire\JobPositions;
 
 Route::get('/', JobPositions::class)->name('positions.index');
 Route::get('/positions/{position}', JobPositionDetails::class)->name('positions.show');
