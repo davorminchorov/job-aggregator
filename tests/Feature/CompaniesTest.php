@@ -6,9 +6,13 @@ use App\Enums\RoleName;
 use App\Models\Company;
 use App\Models\JobPosition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
+#[Group('feature')]
+#[Group('companies')]
 class CompaniesTest extends TestCase
 {
     use RefreshDatabase;
@@ -21,6 +25,8 @@ class CompaniesTest extends TestCase
         Role::create(['name' => RoleName::MEMBER->value]);
     }
 
+    #[Test]
+    #[Group('companies')]
     public function test_user_can_view_companies_page(): void
     {
         // Create test data
@@ -36,6 +42,8 @@ class CompaniesTest extends TestCase
         $response->assertSee($company->industry);
     }
 
+    #[Test]
+    #[Group('companies')]
     public function test_user_can_search_companies(): void
     {
         // Create companies with different names
@@ -62,6 +70,8 @@ class CompaniesTest extends TestCase
         $response->assertDontSee($nonMatchingCompany->name);
     }
 
+    #[Test]
+    #[Group('companies')]
     public function test_user_can_sort_companies(): void
     {
         // Create companies with different attributes
@@ -104,6 +114,8 @@ class CompaniesTest extends TestCase
         ]);
     }
 
+    #[Test]
+    #[Group('companies')]
     public function test_user_can_view_company_details(): void
     {
         // Create test data
@@ -145,6 +157,9 @@ class CompaniesTest extends TestCase
         $response->assertSee('120,000');
     }
 
+    #[Test]
+    #[Group('companies')]
+    #[Group('search')]
     public function test_user_can_search_company_positions(): void
     {
         // Create test data
@@ -174,6 +189,8 @@ class CompaniesTest extends TestCase
         $response->assertDontSee($nonMatchingPosition->title);
     }
 
+    #[Test]
+    #[Group('companies')]
     public function test_user_can_sort_company_positions(): void
     {
         // Create test data
@@ -227,6 +244,8 @@ class CompaniesTest extends TestCase
         ]);
     }
 
+    #[Test]
+    #[Group('companies')]
     public function test_empty_state_is_shown_when_no_companies(): void
     {
         $response = $this->get('/companies');

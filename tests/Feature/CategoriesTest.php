@@ -7,9 +7,13 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\JobPosition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
+#[Group('feature')]
+#[Group('categories')]
 class CategoriesTest extends TestCase
 {
     use RefreshDatabase;
@@ -22,6 +26,8 @@ class CategoriesTest extends TestCase
         Role::create(['name' => RoleName::MEMBER->value]);
     }
 
+    #[Test]
+    #[Group('categories')]
     public function test_user_can_view_categories_page(): void
     {
         // Create test data
@@ -41,6 +47,9 @@ class CategoriesTest extends TestCase
         $response->assertSee('3 positions'); // Should show the count of positions
     }
 
+    #[Test]
+    #[Group('categories')]
+    #[Group('search')]
     public function test_user_can_search_categories(): void
     {
         // Create categories with unique slugs
@@ -69,6 +78,9 @@ class CategoriesTest extends TestCase
         $response->assertDontSee('Backend Development');
     }
 
+    #[Test]
+    #[Group('categories')]
+    #[Group('sort')]
     public function test_user_can_sort_categories(): void
     {
         // Create test data
@@ -111,6 +123,8 @@ class CategoriesTest extends TestCase
         ]);
     }
 
+    #[Test]
+    #[Group('categories')]
     public function test_empty_state_is_shown_when_no_categories(): void
     {
         $response = $this->get(route('categories.index'));
