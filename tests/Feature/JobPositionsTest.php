@@ -42,13 +42,13 @@ class JobPositionsTest extends TestCase
         $matchingPosition = JobPosition::factory()->create([
             'company_id' => $company->id,
             'category_id' => $category->id,
-            'title' => 'Senior Laravel Developer'
+            'title' => 'Senior Laravel Developer',
         ]);
 
         $nonMatchingPosition = JobPosition::factory()->create([
             'company_id' => $company->id,
             'category_id' => $category->id,
-            'title' => 'React Developer'
+            'title' => 'React Developer',
         ]);
 
         // Test the search functionality

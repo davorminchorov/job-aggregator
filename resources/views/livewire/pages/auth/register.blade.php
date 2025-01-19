@@ -30,6 +30,9 @@ new #[Layout('layouts.guest')] class extends Component
 
         event(new Registered($user = User::create($validated)));
 
+        // Assign the member role to the new user
+        $user->assignRole('member');
+
         Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);

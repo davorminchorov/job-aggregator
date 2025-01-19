@@ -26,7 +26,7 @@ class JobPositionFactory extends Factory
             'benefits' => $this->generateBenefits(),
             'salary_min' => $salaryMin,
             'salary_max' => fake()->numberBetween($salaryMin, $salaryMin + 100000),
-            'location' => fake()->randomElement([fake()->city.', '.fake()->stateAbbr, 'Remote']),
+            'location' => fake()->randomElement([fake()->city . ', ' . fake()->stateAbbr, 'Remote']),
             'type' => fake()->randomElement(JobType::values()),
         ];
     }
@@ -47,7 +47,7 @@ class JobPositionFactory extends Factory
         ];
 
         for ($i = 0; $i < $numRequirements - 1; $i++) {
-            $requirements[] = 'Experience with '.fake()->randomElement($skills);
+            $requirements[] = 'Experience with ' . fake()->randomElement($skills);
         }
 
         return implode("\n", array_map(fn ($req) => "- $req", $requirements));

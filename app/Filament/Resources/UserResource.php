@@ -45,6 +45,12 @@ class UserResource extends Resource
 
                         Forms\Components\DateTimePicker::make('email_verified_at')
                             ->label('Email Verified At'),
+
+                        Forms\Components\Select::make('roles')
+                            ->relationship('roles', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable(),
                     ])
                     ->columns(2),
 
@@ -73,6 +79,10 @@ class UserResource extends Resource
                     ->label('Verified')
                     ->boolean()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->badge()
+                    ->label('Roles')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('job_applications_count')
                     ->counts('jobApplications')
                     ->label('Applications')
@@ -90,6 +100,10 @@ class UserResource extends Resource
                 Tables\Filters\TernaryFilter::make('email_verified_at')
                     ->label('Email Verified')
                     ->nullable(),
+                Tables\Filters\SelectFilter::make('roles')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

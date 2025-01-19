@@ -27,8 +27,8 @@ class Categories extends Component
         $categories = Category::query()
             ->withCount('jobPositions')
             ->when($this->search, function ($query) {
-                $query->where('name', 'like', '%'.$this->search.'%')
-                    ->orWhere('description', 'like', '%'.$this->search.'%');
+                $query->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%');
             })
             ->when($this->sortBy === 'name', function ($query) {
                 $query->orderBy('name');

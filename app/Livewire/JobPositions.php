@@ -37,10 +37,10 @@ class JobPositions extends Component
             ->with(['company', 'category'])
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
-                    $query->where('title', 'like', '%'.$this->search.'%')
-                        ->orWhere('description', 'like', '%'.$this->search.'%')
+                    $query->where('title', 'like', '%' . $this->search . '%')
+                        ->orWhere('description', 'like', '%' . $this->search . '%')
                         ->orWhereHas('company', function ($query) {
-                            $query->where('name', 'like', '%'.$this->search.'%');
+                            $query->where('name', 'like', '%' . $this->search . '%');
                         });
                 });
             })

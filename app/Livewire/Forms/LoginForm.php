@@ -5,6 +5,7 @@ namespace App\Livewire\Forms;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Validate;
@@ -38,6 +39,24 @@ class LoginForm extends Form
             ]);
         }
 
+        // Check if the user is trying to access the admin panel
+        if (Request::is('admin*') && ! Auth::user()->hasRole('admin')) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'form.email' => 'You do not have permission to access the admin panel.',
+            ]);
+        }
+
+        // Check if the user is trying to access the main app
+        if (! Request::is('admin*') && ! Auth::user()->hasRole('member')) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'form.email' => 'Please use the admin panel to login.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
@@ -67,6 +86,6 @@ class LoginForm extends Form
      */
     protected function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+        return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
     }
 }
