@@ -1,26 +1,26 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Header -->
-        <div class="md:flex md:items-center md:justify-between">
+        <div class="md:flex md:items-center md:justify-between mb-12">
             <div class="flex-1 min-w-0">
-                <h2 class="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">
+                <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
                     Job Positions
                 </h2>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    Find your next career opportunity from our curated list of positions
+                <p class="mt-3 max-w-3xl text-lg text-gray-500 dark:text-gray-400">
+                    Find your dream job from our curated list of opportunities
                 </p>
             </div>
         </div>
 
-        <!-- Search and Filters -->
-        <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <div class="space-y-4">
+        <!-- Filters -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-800 p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Search -->
                 <div>
                     <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Search Positions</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
+                    <div class="mt-2 relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                             </svg>
                         </div>
@@ -29,114 +29,128 @@
                             type="text"
                             name="search"
                             id="search"
-                            class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-4 py-3 sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
-                            placeholder="Search by position title, company, or keywords..."
+                            class="block w-full pl-10 pr-4 py-2.5 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent"
+                            placeholder="Search by position title or company..."
                         >
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Category Filter -->
-                    <div>
-                        <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
-                        <select
-                            wire:model.live="category"
-                            id="category"
-                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                        >
-                            <option value="">All Categories</option>
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat->slug }}">{{ $cat->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                <!-- Category Filter -->
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+                    <select
+                        wire:model.live="category"
+                        id="category"
+                        class="mt-2 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent"
+                    >
+                        <option value="">All Categories</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-                    <!-- Sort -->
-                    <div>
-                        <label for="sort" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Sort By</label>
-                        <select
-                            wire:model.live="sortBy"
-                            id="sort"
-                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                        >
-                            <option value="latest">Latest</option>
-                            <option value="salary_high">Highest Salary</option>
-                            <option value="salary_low">Lowest Salary</option>
-                        </select>
-                    </div>
+                <!-- Sort -->
+                <div>
+                    <label for="sort" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Sort By</label>
+                    <select
+                        wire:model.live="sortBy"
+                        id="sort"
+                        class="mt-2 block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent"
+                    >
+                        <option value="latest">Most Recent</option>
+                        <option value="salary">Highest Salary</option>
+                        <option value="title">Title (A-Z)</option>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <!-- Position Listings -->
-        <div class="mt-8 grid gap-6">
+        <!-- Job Positions List -->
+        <div class="mt-10 space-y-8">
             @forelse($positions as $position)
-                <div wire:key="{{ $position->id }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div
+                    wire:key="{{ $position->id }}"
+                    class="group relative bg-white dark:bg-gray-800 rounded-xl shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-800 hover:shadow-md hover:-translate-y-1 transition-all duration-200"
+                >
                     <div class="p-6">
-                        <div class="flex items-start justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-start">
-                                    @php
-                                        $initials = collect(explode(' ', $position->company->name))->map(function($word) {
-                                            return strtoupper(substr($word, 0, 1));
-                                        })->take(2)->join('');
-                                    @endphp
-                                    <div class="flex-shrink-0">
-                                        @if($position->company->logo)
-                                            <img src="{{ $position->company->logo }}" alt="{{ $position->company->name }}" class="h-12 w-12 rounded-lg object-cover">
-                                        @else
-                                            <div class="h-12 w-12 rounded-lg bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-lg font-bold text-indigo-600 dark:text-indigo-300">
-                                                {{ $initials }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="ml-8 flex-1">
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                            <a href="{{ route('positions.show', $position) }}" class="hover:text-indigo-600 dark:hover:text-indigo-400">{{ $position->title }}</a>
+                        <div class="flex items-start space-x-6">
+                            <!-- Company Logo -->
+                            @if($position->company->logo)
+                                <img src="{{ $position->company->logo }}" alt="{{ $position->company->name }}" class="h-12 w-12 rounded-lg object-cover flex-shrink-0">
+                            @else
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($position->company->name) }}&background=818CF8&color=fff&size=48&bold=true" alt="{{ $position->company->name }}" class="h-12 w-12 rounded-lg object-cover flex-shrink-0">
+                            @endif
+
+                            <!-- Content -->
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                            <a href="{{ route('positions.show', $position) }}" class="focus:outline-none">
+                                                <span class="absolute inset-0" aria-hidden="true"></span>
+                                                {{ $position->title }}
+                                            </a>
                                         </h3>
-                                        <div class="mt-1 flex items-center text-sm text-gray-600 dark:text-gray-400">
-                                            <span>{{ $position->company->name }}</span>
-                                            @if($position->location)
-                                                <span class="mx-2 text-gray-400 dark:text-gray-500">&middot;</span>
-                                                <span>{{ $position->location }}</span>
-                                            @endif
-                                        </div>
-                                        <div class="mt-2 flex flex-wrap gap-2">
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $position->type === 'full-time' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : ($position->type === 'internship' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' : 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300') }}">
-                                                {{ ucfirst($position->type) }}
-                                            </span>
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
-                                                {{ $position->category->name }}
-                                            </span>
-                                            @if($position->salary_min && $position->salary_max)
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                                                    ${{ number_format($position->salary_min) }} - ${{ number_format($position->salary_max) }}
-                                                </span>
-                                            @endif
-                                        </div>
+                                        <p class="mt-1 text-base font-medium text-gray-500 dark:text-gray-400">
+                                            {{ $position->company->name }}
+                                        </p>
+                                    </div>
+                                    <div class="ml-6">
+                                        <svg class="h-6 w-6 text-gray-400 group-hover:text-indigo-600 dark:text-gray-500 dark:group-hover:text-indigo-400 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                        </svg>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="ml-4 flex flex-col items-end">
-                                <span class="text-sm text-gray-500 dark:text-gray-400">
-                                    {{ $position->created_at->diffForHumans() }}
-                                </span>
-                                <a href="{{ route('positions.show', $position) }}" class="mt-4 inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
-                                    View details
-                                    <svg class="ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                    </svg>
-                                </a>
+
+                                <div class="mt-4 flex flex-wrap items-center gap-3">
+                                    <!-- Category Badge -->
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 ring-1 ring-inset ring-indigo-700/10 dark:ring-indigo-700">
+                                        {{ $position->category->name }}
+                                    </span>
+
+                                    <!-- Type Badge -->
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-50 text-green-700 dark:bg-green-900/50 dark:text-green-300 ring-1 ring-inset ring-green-600/10 dark:ring-green-500">
+                                        {{ $position->type }}
+                                    </span>
+
+                                    <!-- Location -->
+                                    <span class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                        <svg class="mr-1.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        {{ $position->location }}
+                                    </span>
+
+                                    <!-- Salary -->
+                                    @if($position->salary_range)
+                                        <span class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                            <svg class="mr-1.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            {{ $position->salary_range }}
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="text-center py-12">
-                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No positions found</h3>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Try adjusting your search or filter criteria</p>
+                <div class="text-center py-16">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                    </svg>
+                    <h3 class="mt-4 text-base font-medium text-gray-900 dark:text-white">No positions found</h3>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Try adjusting your search criteria or check back later for new opportunities.</p>
                 </div>
             @endforelse
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-10">
+            {{ $positions->links() }}
         </div>
     </div>
 </div>
