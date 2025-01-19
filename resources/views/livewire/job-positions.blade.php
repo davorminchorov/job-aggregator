@@ -10,6 +10,10 @@
                     Find your next career opportunity from our curated list of positions
                 </p>
             </div>
+            <div class="mt-4 md:mt-0 flex space-x-4">
+                <a href="{{ route('register') }}" class="text-sm font-medium text-indigo-500 hover:text-indigo-400">Register</a>
+                <a href="{{ route('login') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Log in</a>
+            </div>
         </div>
 
         <!-- Search and Filters -->
