@@ -17,6 +17,7 @@ JobNexus.tech is a modern job board platform built with Laravel, Livewire, and F
 - 📊 Track job posting performance
 - 📝 Easy job posting management
 - 🎯 Targeted candidate reach
+- 🔄 Automated job imports from various sources
 
 ### For Administrators
 - 🔐 Secure admin panel powered by Filament
@@ -24,6 +25,7 @@ JobNexus.tech is a modern job board platform built with Laravel, Livewire, and F
 - 👥 User management with roles and permissions
 - 🏷️ Category and tag management
 - 🔍 Advanced filtering and search capabilities
+- 🔄 Job source management and synchronization
 
 ## Tech Stack
 
@@ -161,49 +163,51 @@ npm install
 npm run build
 ```
 
-## Project Structure
-
-### Models
-- `JobPosition`: Job listings with details like title, description, salary, and requirements
-- `Company`: Company profiles with information like name, description, size, and industry
-- `Category`: Job categories for better organization
-- `User`: User accounts with role-based permissions
-
-### Key Components
-- **Livewire Components**
-  - `JobPositions`: Handles job listing display and filtering
-  - `Companies`: Manages company listing and search
-  - `Categories`: Displays job categories
-  - `JobPositionDetails`: Shows detailed job information
-  - `CompanyDetails`: Displays company profile and open positions
-
-- **Admin Resources**
-  - Job position management
-  - Company profile management
-  - Category organization
-  - User administration
-  - Role and permission control
-
-### Frontend Design
-- Modern and clean UI using TailwindCSS
-- Responsive design for all screen sizes
-- Dark mode support
-- Consistent styling across all pages
-- Smooth transitions and interactions
-
-## Admin Panel
-
-The admin panel is accessible at `/admin`. To access it, create a user with an email ending in `@jobnexus.tech`.
-
-Features available in the admin panel:
-- Dashboard with key metrics
-- Job position management
-- Company profile management
-- Category organization
-- User administration
-- Role and permission control
-
 ## Development
+
+### Development Data
+
+For local development, you can use the development seeder to populate your database with test data:
+
+```bash
+# Using Sail
+./vendor/bin/sail artisan app:seed-dev
+
+# Using Herd
+php artisan app:seed-dev
+```
+
+This will create:
+- Admin user (admin@example.com / password)
+- 10 regular users
+- 20 companies with 3-8 job positions each
+- Random filled/unfilled positions
+
+### Job Sources
+
+JobNexus supports importing job positions from various sources:
+
+#### Supported Sources
+- **Airtable**: Import jobs from Airtable bases
+  - Required fields: API Key, Base ID, Table ID
+- **Telegram**: Import jobs from Telegram channels/groups
+  - Required fields: Bot Token, Chat ID
+
+#### Managing Sources
+1. Configure source types in the admin panel
+2. Add source credentials
+3. Run sync manually or wait for scheduled sync
+
+To manually sync job sources:
+```bash
+# Using Sail
+./vendor/bin/sail artisan app:sync-job-positions
+
+# Using Herd
+php artisan app:sync-job-positions
+```
+
+### Starting Development Server
 
 To start the development server:
 
@@ -228,6 +232,52 @@ To run the test suite:
 # Using Herd
 php artisan test
 ```
+
+## Project Structure
+
+### Models
+- `JobPosition`: Job listings with details like title, description, salary, and requirements
+- `Company`: Company profiles with information like name, description, size, and industry
+- `Category`: Job categories for better organization
+- `User`: User accounts with role-based permissions
+- `JobPositionSource`: Configuration for job import sources
+- `JobPositionSourceType`: Supported job source types and their required fields
+
+### Key Components
+- **Livewire Components**
+  - `JobPositions`: Handles job listing display and filtering
+  - `Companies`: Manages company listing and search
+  - `Categories`: Displays job categories
+  - `JobPositionDetails`: Shows detailed job information
+  - `CompanyDetails`: Displays company profile and open positions
+
+- **Admin Resources**
+  - Job position management
+  - Company profile management
+  - Category organization
+  - User administration
+  - Role and permission control
+  - Job source configuration
+
+### Frontend Design
+- Modern and clean UI using TailwindCSS
+- Responsive design for all screen sizes
+- Dark mode support
+- Consistent styling across all pages
+- Smooth transitions and interactions
+
+## Admin Panel
+
+The admin panel is accessible at `/admin`. To access it, create a user with an email ending in `@jobnexus.tech`.
+
+Features available in the admin panel:
+- Dashboard with key metrics
+- Job position management
+- Company profile management
+- Category organization
+- User administration
+- Role and permission control
+- Job source configuration and sync management
 
 ## Contributing
 
