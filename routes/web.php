@@ -5,7 +5,9 @@ use App\Livewire\JobPositions;
 use App\Livewire\JobPositionDetails;
 use App\Livewire\Categories;
 
-Route::view('/', 'welcome');
+Route::get('/', JobPositions::class)->name('positions.index');
+Route::get('/positions/{position}', JobPositionDetails::class)->name('positions.show');
+Route::get('/categories', Categories::class)->name('categories.index');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -14,9 +16,5 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
-
-Route::get('/', JobPositions::class)->name('positions.index');
-Route::get('/positions/{position}', JobPositionDetails::class)->name('positions.show');
-Route::get('/categories', Categories::class)->name('categories.index');
 
 require __DIR__.'/auth.php';
