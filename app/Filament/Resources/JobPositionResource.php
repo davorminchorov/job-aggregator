@@ -116,10 +116,6 @@ class JobPositionResource extends Resource
                 Tables\Columns\TextColumn::make('salary_max')
                     ->money()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('job_applications_count')
-                    ->counts('jobApplications')
-                    ->label('Applications')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

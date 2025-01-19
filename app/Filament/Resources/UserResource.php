@@ -53,15 +53,6 @@ class UserResource extends Resource
                             ->searchable(),
                     ])
                     ->columns(2),
-
-                Forms\Components\Section::make('Job Applications')
-                    ->schema([
-                        Forms\Components\Placeholder::make('job_applications_count')
-                            ->label('Total Applications')
-                            ->content(fn (User $record): int => $record->jobApplications()->count()),
-                    ])
-                    ->columns(2)
-                    ->hidden(fn (string $operation): bool => $operation === 'create'),
             ]);
     }
 
@@ -83,10 +74,6 @@ class UserResource extends Resource
                     ->badge()
                     ->label('Roles')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('job_applications_count')
-                    ->counts('jobApplications')
-                    ->label('Applications')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

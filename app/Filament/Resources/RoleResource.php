@@ -84,7 +84,7 @@ class RoleResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->visible(fn ($records) => ! $records->contains('name', RoleName::ADMIN->value) && ! $records->contains('name', RoleName::MEMBER->value)),
+                        ->visible(fn ($records) => $records && ! $records->contains('name', RoleName::ADMIN->value) && ! $records->contains('name', RoleName::MEMBER->value)),
                 ]),
             ]);
     }
