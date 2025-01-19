@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
-    darkMode: localStorage.getItem('darkMode') === 'true',
+    darkMode: localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
     toggleDarkMode() {
-        this.darkMode = !this.darkMode;
-        localStorage.setItem('darkMode', this.darkMode);
-        document.documentElement.classList.toggle('dark', this.darkMode);
+        if (this.darkMode) {
+            localStorage.theme = 'light'
+            document.documentElement.classList.remove('dark')
+        } else {
+            localStorage.theme = 'dark'
+            document.documentElement.classList.add('dark')
+        }
+        this.darkMode = !this.darkMode
     },
     mobileMenuOpen: false
-}" x-init="
-    if (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        darkMode = true;
-        localStorage.setItem('darkMode', 'true');
+}" x-init="$nextTick(() => {
+    if (darkMode) {
+        document.documentElement.classList.add('dark')
+    } else {
+        document.documentElement.classList.remove('dark')
     }
-    document.documentElement.classList.toggle('dark', darkMode);
-">
+})" class="h-full">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
