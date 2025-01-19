@@ -13,9 +13,10 @@ JobNexus.tech is a modern job board platform built with Laravel, Livewire, and F
 
 ## Tech Stack
 
-- PHP 8.2+
-- Laravel 10
+- PHP 8.4+
+- Laravel 11
 - MySQL 8.0+
+- Redis 7.0+
 - Livewire 3
 - Filament 3
 - TailwindCSS 3
@@ -23,7 +24,7 @@ JobNexus.tech is a modern job board platform built with Laravel, Livewire, and F
 
 ## Requirements
 
-- PHP >= 8.2
+- PHP >= 8.4
 - Composer >= 2.0
 - Node.js >= 18
 - MySQL >= 8.0
@@ -44,7 +45,7 @@ docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v "$(pwd):/var/www/html" \
     -w /var/www/html \
-    laravelsail/php82-composer:latest \
+    laravelsail/php84-composer:latest \
     composer install --ignore-platform-reqs
 ```
 
