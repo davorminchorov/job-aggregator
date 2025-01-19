@@ -1,26 +1,47 @@
 # JobNexus.tech
 
-JobNexus.tech is a modern job board platform built with Laravel, Livewire, and Filament Admin. It provides a clean and intuitive interface for browsing job positions across different categories.
+JobNexus.tech is a modern job board platform built with Laravel, Livewire, and Filament Admin. It provides a clean and intuitive interface for browsing job positions across different categories and companies.
 
 ## Features
 
-- 🔍 Advanced job search with filters
-- 🏷️ Category-based job browsing
-- 🏢 Company profiles with logos
-- 🌓 Dark mode support
-- 📱 Responsive design
-- 🔐 Admin panel for content management
+### For Job Seekers
+- 🔍 Advanced job search with filters for title, location, and salary
+- 🏷️ Category-based job browsing with sorting options
+- 🏢 Detailed company profiles with information about size, industry, and open positions
+- 📱 Mobile-friendly responsive design
+- 🌓 Dark mode support for comfortable viewing
+- 💼 Easy application process (coming soon)
+
+### For Companies
+- ✨ Beautiful company profiles with logos and detailed information
+- 📊 Track job posting performance
+- 📝 Easy job posting management
+- 🎯 Targeted candidate reach
+
+### For Administrators
+- 🔐 Secure admin panel powered by Filament
+- 📊 Dashboard with key metrics
+- 👥 User management with roles and permissions
+- 🏷️ Category and tag management
+- 🔍 Advanced filtering and search capabilities
 
 ## Tech Stack
 
-- PHP 8.4+
-- Laravel 11
-- MySQL 8.0+
-- Redis 7.0+
-- Livewire 3
-- Filament 3
-- TailwindCSS 3
-- Alpine.js 3
+- **Backend**
+  - PHP 8.4+
+  - Laravel 11
+  - MySQL 8.0+
+  - Redis 7.0+
+
+- **Frontend**
+  - Livewire 3 for dynamic interfaces
+  - TailwindCSS 3 for styling
+  - Alpine.js 3 for JavaScript interactions
+  - Heroicons for beautiful icons
+
+- **Admin Panel**
+  - Filament 3
+  - Spatie Permissions for access control
 
 ## Requirements
 
@@ -140,24 +161,47 @@ npm install
 npm run build
 ```
 
-## Database Structure
+## Project Structure
 
-The application uses the following main models:
+### Models
+- `JobPosition`: Job listings with details like title, description, salary, and requirements
+- `Company`: Company profiles with information like name, description, size, and industry
+- `Category`: Job categories for better organization
+- `User`: User accounts with role-based permissions
 
-- `JobPosition`: Represents a job listing with title, description, requirements, benefits, etc.
-- `Company`: Contains company information including name, description, website, and logo
-- `Category`: Represents job categories for better organization
-- `User`: Admin users for managing the platform
+### Key Components
+- **Livewire Components**
+  - `JobPositions`: Handles job listing display and filtering
+  - `Companies`: Manages company listing and search
+  - `Categories`: Displays job categories
+  - `JobPositionDetails`: Shows detailed job information
+  - `CompanyDetails`: Displays company profile and open positions
+
+- **Admin Resources**
+  - Job position management
+  - Company profile management
+  - Category organization
+  - User administration
+  - Role and permission control
+
+### Frontend Design
+- Modern and clean UI using TailwindCSS
+- Responsive design for all screen sizes
+- Dark mode support
+- Consistent styling across all pages
+- Smooth transitions and interactions
 
 ## Admin Panel
 
 The admin panel is accessible at `/admin`. To access it, create a user with an email ending in `@jobnexus.tech`.
 
 Features available in the admin panel:
-- Manage job positions
-- Manage companies
-- Manage categories
-- View and manage users
+- Dashboard with key metrics
+- Job position management
+- Company profile management
+- Category organization
+- User administration
+- Role and permission control
 
 ## Development
 
