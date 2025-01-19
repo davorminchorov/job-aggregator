@@ -54,6 +54,9 @@
                         <a href="{{ route('categories.index') }}" class="inline-flex items-center px-1 pt-1 text-sm font-medium {{ request()->routeIs('categories.*') ? 'text-slate-900 dark:text-white border-b-2 border-violet-500' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300' }}">
                             Categories
                         </a>
+                        <a href="{{ route('companies.index') }}" class="inline-flex items-center px-1 pt-1 text-sm font-medium {{ request()->routeIs('companies.*') ? 'text-slate-900 dark:text-white border-b-2 border-violet-500' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300' }}">
+                            Companies
+                        </a>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -123,6 +126,9 @@
                 </a>
                 <a href="{{ route('categories.index') }}" class="block pl-3 pr-4 py-2 text-base font-medium {{ request()->routeIs('categories.*') ? 'text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-900/50 border-l-4 border-violet-500' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white' }}">
                     Categories
+                </a>
+                <a href="{{ route('companies.index') }}" class="block pl-3 pr-4 py-2 text-base font-medium {{ request()->routeIs('companies.*') ? 'text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-900/50 border-l-4 border-violet-500' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white' }}">
+                    Companies
                 </a>
                 <div class="pt-4 pb-3 border-t border-slate-200 dark:border-slate-700">
                     <div class="space-y-1">
