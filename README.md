@@ -1,6 +1,6 @@
-# JobNexus
+# JobNexus.tech
 
-JobNexus is a modern job board platform built with Laravel, Livewire, and Filament Admin. It provides a clean and intuitive interface for browsing job positions across different categories.
+JobNexus.tech is a modern job board platform built with Laravel, Livewire, and Filament Admin. It provides a clean and intuitive interface for browsing job positions across different categories.
 
 ## Features
 
