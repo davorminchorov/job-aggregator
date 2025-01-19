@@ -1,0 +1,53 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+:root {
+    --color-primary-50: 245 243 255;  /* violet-50 */
+    --color-primary-100: 237 233 254; /* violet-100 */
+    --color-primary-200: 221 214 254; /* violet-200 */
+    --color-primary-300: 196 181 253; /* violet-300 */
+    --color-primary-400: 167 139 250; /* violet-400 */
+    --color-primary-500: 139 92 246;  /* violet-500 */
+    --color-primary-600: 124 58 237;  /* violet-600 */
+    --color-primary-700: 109 40 217;  /* violet-700 */
+    --color-primary-800: 91 33 182;   /* violet-800 */
+    --color-primary-900: 76 29 149;   /* violet-900 */
+    --color-primary-950: 46 16 101;   /* violet-950 */
+
+    --color-gray-50: 248 250 252;   /* slate-50 */
+    --color-gray-100: 241 245 249;  /* slate-100 */
+    --color-gray-200: 226 232 240;  /* slate-200 */
+    --color-gray-300: 203 213 225;  /* slate-300 */
+    --color-gray-400: 148 163 184;  /* slate-400 */
+    --color-gray-500: 100 116 139;  /* slate-500 */
+    --color-gray-600: 71 85 105;    /* slate-600 */
+    --color-gray-700: 51 65 85;     /* slate-700 */
+    --color-gray-800: 30 41 59;     /* slate-800 */
+    --color-gray-900: 15 23 42;     /* slate-900 */
+    --color-gray-950: 2 6 23;       /* slate-950 */
+
+    --color-success-50: 240 253 244;   /* emerald-50 */
+    --color-success-100: 220 252 231;  /* emerald-100 */
+    --color-success-200: 187 247 208;  /* emerald-200 */
+    --color-success-300: 134 239 172;  /* emerald-300 */
+    --color-success-400: 74 222 128;   /* emerald-400 */
+    --color-success-500: 34 197 94;    /* emerald-500 */
+    --color-success-600: 22 163 74;    /* emerald-600 */
+    --color-success-700: 21 128 61;    /* emerald-700 */
+    --color-success-800: 22 101 52;    /* emerald-800 */
+    --color-success-900: 20 83 45;     /* emerald-900 */
+    --color-success-950: 5 46 22;      /* emerald-950 */
+
+    --color-info-50: 240 249 255;   /* sky-50 */
+    --color-info-100: 224 242 254;  /* sky-100 */
+    --color-info-200: 186 230 253;  /* sky-200 */
+    --color-info-300: 125 211 252;  /* sky-300 */
+    --color-info-400: 56 189 248;   /* sky-400 */
+    --color-info-500: 14 165 233;   /* sky-500 */
+    --color-info-600: 2 132 199;    /* sky-600 */
+    --color-info-700: 3 105 161;    /* sky-700 */
+    --color-info-800: 7 89 133;     /* sky-800 */
+    --color-info-900: 12 74 110;    /* sky-900 */
+    --color-info-950: 8 47 73;      /* sky-950 */
+}
