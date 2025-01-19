@@ -4,48 +4,41 @@ namespace App\Services\Sources;
 
 use App\Models\JobPositionSource;
 use App\Services\AbstractJobPositionSource;
-use Illuminate\Support\Facades\Http;
+use App\Services\Airtable\AirtableClient;
+use App\Services\Airtable\AirtableException;
 
 class AirtableJobPositionSource extends AbstractJobPositionSource
 {
-    private const API_URL = 'https://api.airtable.com/v0';
+    private ?AirtableClient $client = null;
 
     public function sync(JobPositionSource $source): void
     {
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . trim($source->credentials['pat']),
-            'Content-Type' => 'application/json',
-        ])->get(self::API_URL . '/' . trim($source->credentials['base_id']) . '/' . trim($source->credentials['table_id']), [
-            'maxRecords' => 100,
-            'view' => 'Grid view',
-        ]);
+        try {
+            $records = $this->getClient($source->credentials['pat'])
+                ->listRecords($source->credentials['base_id'], $source->credentials['table_id']);
 
-        if (! $response->successful()) {
-            $error = $response->json();
-            throw new \Exception('Failed to fetch data from Airtable: ' . ($error['error']['message'] ?? $response->body()));
+            foreach ($records as $record) {
+                $fields = $record['fields'];
+
+                $this->createOrUpdateJobPosition([
+                    'title' => $fields['Position'] ?? 'Unknown Position',
+                    'company_name' => $fields['Company'] ?? 'Unknown Company',
+                    'company_website' => $fields['Company Website'] ?? null,
+                    'company_location' => $fields['Location'] ?? null,
+                    'description' => $fields['Description'] ?? '',
+                    'requirements' => $fields['Requirements'] ?? '',
+                    'benefits' => $fields['Benefits'] ?? '',
+                    'location' => $fields['Location'] ?? '',
+                    'salary_min' => $this->parseSalaryMin($fields['Salary Range'] ?? ''),
+                    'salary_max' => $this->parseSalaryMax($fields['Salary Range'] ?? ''),
+                    'type' => $this->parseJobType($fields['Type'] ?? ''),
+                ]);
+            }
+
+            $this->updateLastSynced($source);
+        } catch (AirtableException $e) {
+            throw new \Exception('Failed to sync job positions: ' . $e->getMessage());
         }
-
-        $records = $response->json()['records'] ?? [];
-
-        foreach ($records as $record) {
-            $fields = $record['fields'];
-
-            $this->createOrUpdateJobPosition([
-                'title' => $fields['Position'] ?? 'Unknown Position',
-                'company_name' => $fields['Company'] ?? 'Unknown Company',
-                'company_website' => $fields['Company Website'] ?? null,
-                'company_location' => $fields['Location'] ?? null,
-                'description' => $fields['Description'] ?? '',
-                'requirements' => $fields['Requirements'] ?? '',
-                'benefits' => $fields['Benefits'] ?? '',
-                'location' => $fields['Location'] ?? '',
-                'salary_min' => $this->parseSalaryMin($fields['Salary Range'] ?? ''),
-                'salary_max' => $this->parseSalaryMax($fields['Salary Range'] ?? ''),
-                'type' => $this->parseJobType($fields['Type'] ?? ''),
-            ]);
-        }
-
-        $this->updateLastSynced($source);
     }
 
     public function validateCredentials(array $credentials): bool
@@ -55,15 +48,8 @@ class AirtableJobPositionSource extends AbstractJobPositionSource
         }
 
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . trim($credentials['pat']),
-                'Content-Type' => 'application/json',
-            ])->get(self::API_URL . '/' . trim($credentials['base_id']) . '/' . trim($credentials['table_id']), [
-                'maxRecords' => 1,
-                'view' => 'Grid view',
-            ]);
-
-            return $response->successful();
+            return $this->getClient($credentials['pat'])
+                ->validateAccess($credentials['base_id'], $credentials['table_id']);
         } catch (\Exception $e) {
             return false;
         }
@@ -116,5 +102,14 @@ class AirtableJobPositionSource extends AbstractJobPositionSource
         }
 
         return 'full_time';
+    }
+
+    private function getClient(string $pat): AirtableClient
+    {
+        if ($this->client === null) {
+            $this->client = new AirtableClient($pat);
+        }
+
+        return $this->client;
     }
 }
