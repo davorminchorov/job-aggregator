@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\JobPosition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -22,6 +24,9 @@ class JobPositionsTest extends TestCase
         Role::create(['name' => RoleName::MEMBER->value]);
     }
 
+    #[Test]
+    #[Group('job-positions')]
+    #[Group('view')]
     public function test_user_can_view_job_positions_page(): void
     {
         // Create test data
@@ -42,6 +47,9 @@ class JobPositionsTest extends TestCase
         $response->assertSee($category->name);
     }
 
+    #[Test]
+    #[Group('job-positions')]
+    #[Group('search')]
     public function test_user_can_search_job_positions(): void
     {
         // Create test data
@@ -76,6 +84,9 @@ class JobPositionsTest extends TestCase
         $response->assertDontSee($nonMatchingPosition->title);
     }
 
+    #[Test]
+    #[Group('job-positions')]
+    #[Group('filter')]
     public function test_user_can_filter_job_positions_by_category(): void
     {
         // Create test data
@@ -102,6 +113,61 @@ class JobPositionsTest extends TestCase
         $response->assertDontSee($frontendPosition->title);
     }
 
+    #[Test]
+    #[Group('job-positions')]
+    #[Group('filter')]
+    public function job_positions_can_be_filtered_by_location_type(): void
+    {
+        $company = Company::factory()->create();
+        $category = Category::factory()->create();
+
+        $remotePosition = JobPosition::factory()->create([
+            'company_id' => $company->id,
+            'category_id' => $category->id,
+            'location' => 'Remote',
+        ]);
+
+        $hybridPosition = JobPosition::factory()->create([
+            'company_id' => $company->id,
+            'category_id' => $category->id,
+            'location' => 'Hybrid',
+        ]);
+
+        $response = $this->get(route('positions.index', ['location' => 'remote']));
+        $response->assertSee($remotePosition->title);
+        $response->assertDontSee($hybridPosition->title);
+    }
+
+    #[Test]
+    #[Group('job-positions')]
+    #[Group('filter')]
+    public function job_positions_can_be_filtered_by_salary_range(): void
+    {
+        $company = Company::factory()->create();
+        $category = Category::factory()->create();
+
+        $highSalaryPosition = JobPosition::factory()->create([
+            'company_id' => $company->id,
+            'category_id' => $category->id,
+            'salary_min' => 100000,
+            'salary_max' => 150000,
+        ]);
+
+        $lowSalaryPosition = JobPosition::factory()->create([
+            'company_id' => $company->id,
+            'category_id' => $category->id,
+            'salary_min' => 40000,
+            'salary_max' => 60000,
+        ]);
+
+        $response = $this->get(route('positions.index', ['salary_min' => 80000]));
+        $response->assertSee($highSalaryPosition->title);
+        $response->assertDontSee($lowSalaryPosition->title);
+    }
+
+    #[Test]
+    #[Group('job-positions')]
+    #[Group('sort')]
     public function test_user_can_sort_job_positions(): void
     {
         // Create a category and company for the job positions
@@ -160,6 +226,9 @@ class JobPositionsTest extends TestCase
         ]);
     }
 
+    #[Test]
+    #[Group('job-positions')]
+    #[Group('view')]
     public function test_user_can_view_job_position_details(): void
     {
         // Create test data
@@ -196,6 +265,30 @@ class JobPositionsTest extends TestCase
         $response->assertSee('$80,000 - $120,000 per year');
     }
 
+    #[Test]
+    #[Group('job-positions')]
+    #[Group('pagination')]
+    public function job_positions_pagination_works_correctly(): void
+    {
+        $company = Company::factory()->create();
+        $category = Category::factory()->create();
+
+        JobPosition::factory()->count(25)->create([
+            'company_id' => $company->id,
+            'category_id' => $category->id,
+        ]);
+
+        $response = $this->get(route('positions.index'));
+        $response->assertStatus(200);
+
+        // Assuming 20 per page
+        $this->assertCount(20, $response->json()['data']);
+        $response->assertJsonPath('meta.total', 25);
+    }
+
+    #[Test]
+    #[Group('job-positions')]
+    #[Group('empty-state')]
     public function test_empty_state_is_shown_when_no_positions(): void
     {
         $response = $this->get(route('positions.index'));
