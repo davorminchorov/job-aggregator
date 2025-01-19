@@ -28,6 +28,7 @@ JobNexus.tech is a modern job board platform built with Laravel, Livewire, and F
 - Composer >= 2.0
 - Node.js >= 18
 - MySQL >= 8.0
+- Redis >= 7.0
 
 ## Installation
 
@@ -35,7 +36,7 @@ JobNexus.tech is a modern job board platform built with Laravel, Livewire, and F
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/jobnexus.git
+git clone https://github.com/davorminchorov/jobnexus.git
 cd jobnexus
 ```
 
@@ -54,22 +55,37 @@ docker run --rm \
 cp .env.example .env
 ```
 
-4. Start Docker containers:
+4. Configure environment variables:
+```bash
+# Update these variables in your .env file
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=jobnexus
+DB_USERNAME=sail
+DB_PASSWORD=password
+
+REDIS_HOST=redis
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+```
+
+5. Start Docker containers:
 ```bash
 ./vendor/bin/sail up -d
 ```
 
-5. Generate application key:
+6. Generate application key:
 ```bash
 ./vendor/bin/sail artisan key:generate
 ```
 
-6. Run migrations and seeders:
+7. Run migrations and seeders:
 ```bash
 ./vendor/bin/sail artisan migrate --seed
 ```
 
-7. Install and build frontend assets:
+8. Install and build frontend assets:
 ```bash
 ./vendor/bin/sail npm install
 ./vendor/bin/sail npm run build
@@ -79,7 +95,7 @@ cp .env.example .env
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/jobnexus.git
+git clone https://github.com/davorminchorov/jobnexus.git
 cd jobnexus
 ```
 
@@ -93,17 +109,32 @@ composer install
 cp .env.example .env
 ```
 
-4. Generate application key:
+4. Configure environment variables:
+```bash
+# Update these variables in your .env file
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=jobnexus
+DB_USERNAME=root
+DB_PASSWORD=
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+```
+
+5. Generate application key:
 ```bash
 php artisan key:generate
 ```
 
-5. Run migrations and seeders:
+6. Run migrations and seeders:
 ```bash
 php artisan migrate --seed
 ```
 
-6. Install and build frontend assets:
+7. Install and build frontend assets:
 ```bash
 npm install
 npm run build
