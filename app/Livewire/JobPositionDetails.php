@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\JobPosition;
-use Livewire\Component;
 use Illuminate\View\View;
+use Livewire\Component;
 
 class JobPositionDetails extends Component
 {
@@ -24,6 +24,7 @@ class JobPositionDetails extends Component
     {
         if (! auth()->check()) {
             $this->redirect(route('login'));
+
             return;
         }
 

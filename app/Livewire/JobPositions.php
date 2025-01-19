@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\JobPosition;
 use App\Models\Category;
+use App\Models\JobPosition;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Url;
 
 class JobPositions extends Component
 {
@@ -37,10 +37,10 @@ class JobPositions extends Component
             ->with(['company', 'category'])
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
-                    $query->where('title', 'like', '%' . $this->search . '%')
-                        ->orWhere('description', 'like', '%' . $this->search . '%')
+                    $query->where('title', 'like', '%'.$this->search.'%')
+                        ->orWhere('description', 'like', '%'.$this->search.'%')
                         ->orWhereHas('company', function ($query) {
-                            $query->where('name', 'like', '%' . $this->search . '%');
+                            $query->where('name', 'like', '%'.$this->search.'%');
                         });
                 });
             })

@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\CompanySize;
-use App\Enums\IndustryName;
 use App\Enums\JobPositionBenefitName;
 use App\Enums\JobType;
 use App\Models\Category;
@@ -28,7 +26,7 @@ class JobPositionFactory extends Factory
             'benefits' => $this->generateBenefits(),
             'salary_min' => $salaryMin,
             'salary_max' => fake()->numberBetween($salaryMin, $salaryMin + 100000),
-            'location' => fake()->randomElement([fake()->city . ', ' . fake()->stateAbbr, 'Remote']),
+            'location' => fake()->randomElement([fake()->city.', '.fake()->stateAbbr, 'Remote']),
             'type' => fake()->randomElement(JobType::values()),
         ];
     }
@@ -45,19 +43,20 @@ class JobPositionFactory extends Factory
             'PHP', 'Laravel', 'JavaScript', 'TypeScript', 'React', 'Vue.js', 'Node.js',
             'Python', 'Java', 'Docker', 'Kubernetes', 'AWS', 'GCP', 'Azure',
             'SQL', 'NoSQL', 'Redis', 'MongoDB', 'GraphQL', 'REST APIs',
-            'CI/CD', 'Git', 'Agile methodologies', 'TDD', 'System Design'
+            'CI/CD', 'Git', 'Agile methodologies', 'TDD', 'System Design',
         ];
 
         for ($i = 0; $i < $numRequirements - 1; $i++) {
-            $requirements[] = "Experience with " . fake()->randomElement($skills);
+            $requirements[] = 'Experience with '.fake()->randomElement($skills);
         }
 
-        return implode("\n", array_map(fn($req) => "- $req", $requirements));
+        return implode("\n", array_map(fn ($req) => "- $req", $requirements));
     }
 
     protected function generateBenefits(): string
     {
         $benefits = fake()->randomElements(JobPositionBenefitName::values(), fake()->numberBetween(5, 8));
-        return implode("\n", array_map(fn($benefit) => "- $benefit", $benefits));
+
+        return implode("\n", array_map(fn ($benefit) => "- $benefit", $benefits));
     }
 }

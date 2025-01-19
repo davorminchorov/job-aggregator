@@ -21,12 +21,12 @@ class CompanyFactory extends Factory
             'slug' => Str::slug($name),
             'description' => fake()->paragraphs(2, true),
             'website' => fake()->url(),
-            'logo' => 'https://ui-avatars.com/api/?name=' . urlencode($name) . '&background=818CF8&color=fff&size=400&bold=true',
-            'location' => fake()->city() . ', ' . fake()->stateAbbr(),
+            'logo' => 'https://ui-avatars.com/api/?name='.urlencode($name).'&background=818CF8&color=fff&size=400&bold=true',
+            'location' => fake()->city().', '.fake()->stateAbbr(),
             'industry' => fake()->randomElement(IndustryName::values()),
             'size' => fake()->randomElement(CompanySize::values()),
             'founded_year' => fake()->year(),
-            'email' => 'careers@' . Str::slug($name) . '.com',
+            'email' => 'careers@'.Str::slug($name).'.com',
             'phone' => fake()->phoneNumber(),
         ];
     }
