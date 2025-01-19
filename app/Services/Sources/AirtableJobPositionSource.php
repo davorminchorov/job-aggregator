@@ -13,13 +13,16 @@ class AirtableJobPositionSource extends AbstractJobPositionSource
     public function sync(JobPositionSource $source): void
     {
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $source->credentials['api_key'],
-        ])->get(self::API_URL . "/{$source->credentials['base_id']}/{$source->credentials['table_id']}", [
-            'filterByFormula' => "IS_AFTER(CREATED_TIME(), DATEADD(NOW(), -1, 'days'))",
+            'Authorization' => 'Bearer ' . trim($source->credentials['api_key']),
+            'Content-Type' => 'application/json',
+        ])->get(self::API_URL . '/' . trim($source->credentials['base_id']) . '/' . trim($source->credentials['table_id']), [
+            'maxRecords' => 100,
+            'view' => 'Grid view',
         ]);
 
         if (! $response->successful()) {
-            throw new \Exception('Failed to fetch data from Airtable: ' . $response->body());
+            $error = $response->json();
+            throw new \Exception('Failed to fetch data from Airtable: ' . ($error['error']['message'] ?? $response->body()));
         }
 
         $records = $response->json()['records'] ?? [];
@@ -53,9 +56,11 @@ class AirtableJobPositionSource extends AbstractJobPositionSource
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $credentials['api_key'],
-            ])->get(self::API_URL . "/{$credentials['base_id']}/{$credentials['table_id']}", [
+                'Authorization' => 'Bearer ' . trim($credentials['api_key']),
+                'Content-Type' => 'application/json',
+            ])->get(self::API_URL . '/' . trim($credentials['base_id']) . '/' . trim($credentials['table_id']), [
                 'maxRecords' => 1,
+                'view' => 'Grid view',
             ]);
 
             return $response->successful();
@@ -100,6 +105,14 @@ class AirtableJobPositionSource extends AbstractJobPositionSource
 
         if (str_contains($type, 'contract')) {
             return 'contract';
+        }
+
+        if (str_contains($type, 'freelance')) {
+            return 'freelance';
+        }
+
+        if (str_contains($type, 'intern')) {
+            return 'internship';
         }
 
         return 'full_time';
