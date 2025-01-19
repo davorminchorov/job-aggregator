@@ -50,12 +50,6 @@ jobs:
         node-version: '20'
         cache: 'npm'
 
-    - name: Install Node dependencies
-      run: npm ci
-
-    - name: Build Vite assets
-      run: npm run build
-
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
@@ -67,6 +61,17 @@ jobs:
 
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
+
+    - name: Install Node dependencies
+      run: npm ci
+
+    - name: Publish Filament Assets
+      run: |
+        php artisan filament:install --no-interaction
+        php artisan filament:upgrade
+
+    - name: Build Vite assets
+      run: npm run build
 
     - name: Run Laravel Pint
       run: ./vendor/bin/pint --test

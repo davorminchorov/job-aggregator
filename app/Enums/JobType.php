@@ -14,4 +14,15 @@ enum JobType: string
     {
         return array_column(self::cases(), 'value');
     }
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::FULL_TIME => 'Full-time',
+            self::PART_TIME => 'Part-time',
+            self::CONTRACT => 'Contract',
+            self::FREELANCE => 'Freelance',
+            self::INTERNSHIP => 'Internship',
+        };
+    }
 }
