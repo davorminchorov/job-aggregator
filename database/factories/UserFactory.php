@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -15,6 +16,16 @@ class UserFactory extends Factory
      * The current password being used by the factory.
      */
     protected static ?string $password;
+
+    /**
+     * Configure the model factory.
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole('member');
+        });
+    }
 
     /**
      * Define the model's default state.
@@ -50,5 +61,15 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'password' => Hash::make($password),
         ]);
+    }
+
+    /**
+     * Create an admin user.
+     */
+    public function admin(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->syncRoles(['admin']);
+        });
     }
 }

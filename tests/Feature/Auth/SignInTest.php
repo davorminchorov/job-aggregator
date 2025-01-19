@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Volt\Volt;
 use Tests\TestCase;
 
 class SignInTest extends TestCase
@@ -23,25 +24,27 @@ class SignInTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
-        ]);
+        $component = Volt::test('pages.auth.login')
+            ->set('form.email', $user->email)
+            ->set('form.password', 'password');
+
+        $component->call('login');
 
         $this->assertAuthenticated();
-        $response->assertRedirect('/dashboard');
+        $component->assertRedirect('/dashboard');
     }
 
     public function test_users_cannot_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ]);
+        $component = Volt::test('pages.auth.login')
+            ->set('form.email', $user->email)
+            ->set('form.password', 'wrong-password');
 
-        $response->assertSessionHasErrors(['email']);
+        $component->call('login');
+
+        $component->assertHasErrors(['form.email']);
         $this->assertGuest();
     }
 
@@ -49,22 +52,29 @@ class SignInTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post('/logout');
+        $this->actingAs($user);
+
+        $component = Volt::test('layout.navigation')
+            ->assertSee($user->name);
+
+        $component->call('logout');
 
         $this->assertGuest();
-        $response->assertRedirect('/');
+        $component->assertRedirect('/');
     }
 
     public function test_users_can_remember_login(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
-            'remember' => 'on',
-        ]);
+        $component = Volt::test('pages.auth.login')
+            ->set('form.email', $user->email)
+            ->set('form.password', 'password')
+            ->set('form.remember', true);
 
-        $response->assertCookie(auth()->guard()->getRecallerName());
+        $component->call('login');
+
+        $this->assertAuthenticated();
+        $component->assertRedirect('/dashboard');
     }
 }

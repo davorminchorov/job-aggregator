@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\JobPositionBenefitName;
 use App\Enums\JobType;
 use App\Models\Category;
 use App\Models\Company;
@@ -19,44 +18,45 @@ class JobPositionFactory extends Factory
 
         return [
             'company_id' => Company::factory(),
-            'category_id' => Category::query()->inRandomOrder()->first()->id,
+            'category_id' => Category::factory(),
             'title' => fake()->jobTitle(),
             'description' => fake()->paragraphs(3, true),
             'requirements' => $this->generateRequirements(),
             'benefits' => $this->generateBenefits(),
+            'location' => fake()->city(),
+            'type' => fake()->randomElement(JobType::cases())->value,
+            'experience_level' => fake()->randomElement(['entry', 'mid', 'senior', 'lead']),
             'salary_min' => $salaryMin,
-            'salary_max' => fake()->numberBetween($salaryMin, $salaryMin + 100000),
-            'location' => fake()->randomElement([fake()->city . ', ' . fake()->stateAbbr, 'Remote']),
-            'type' => fake()->randomElement(JobType::values()),
+            'salary_max' => $salaryMin + fake()->numberBetween(10000, 50000),
+            'application_deadline' => fake()->dateTimeBetween('now', '+30 days'),
+            'is_remote' => fake()->boolean(),
+            'is_featured' => fake()->boolean(),
+            'is_filled' => false,
         ];
     }
 
-    protected function generateRequirements(): string
+    private function generateRequirements(): array
     {
-        $requirements = [];
-        $numRequirements = fake()->numberBetween(4, 7);
-
-        $experienceYears = fake()->numberBetween(2, 8);
-        $requirements[] = "$experienceYears+ years of relevant experience";
-
-        $skills = [
-            'PHP', 'Laravel', 'JavaScript', 'TypeScript', 'React', 'Vue.js', 'Node.js',
-            'Python', 'Java', 'Docker', 'Kubernetes', 'AWS', 'GCP', 'Azure',
-            'SQL', 'NoSQL', 'Redis', 'MongoDB', 'GraphQL', 'REST APIs',
-            'CI/CD', 'Git', 'Agile methodologies', 'TDD', 'System Design',
+        return [
+            'education' => fake()->randomElement(['Bachelor\'s', 'Master\'s', 'PhD']),
+            'years_of_experience' => fake()->numberBetween(1, 10),
+            'skills' => fake()->words(5),
+            'languages' => fake()->randomElements(['English', 'Spanish', 'French', 'German', 'Chinese'], 2),
         ];
-
-        for ($i = 0; $i < $numRequirements - 1; $i++) {
-            $requirements[] = 'Experience with ' . fake()->randomElement($skills);
-        }
-
-        return implode("\n", array_map(fn ($req) => "- $req", $requirements));
     }
 
-    protected function generateBenefits(): string
+    private function generateBenefits(): array
     {
-        $benefits = fake()->randomElements(JobPositionBenefitName::values(), fake()->numberBetween(5, 8));
-
-        return implode("\n", array_map(fn ($benefit) => "- $benefit", $benefits));
+        return [
+            'health_insurance' => fake()->boolean(),
+            'dental_insurance' => fake()->boolean(),
+            'vision_insurance' => fake()->boolean(),
+            'life_insurance' => fake()->boolean(),
+            '401k' => fake()->boolean(),
+            'paid_time_off' => fake()->numberBetween(10, 30),
+            'flexible_hours' => fake()->boolean(),
+            'remote_work' => fake()->boolean(),
+            'professional_development' => fake()->boolean(),
+        ];
     }
 }

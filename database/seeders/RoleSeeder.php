@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RoleName;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -10,10 +9,13 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create admin role
-        Role::create(['name' => RoleName::ADMIN->value]);
+        // Create roles if they don't exist
+        if (!Role::where('name', 'admin')->exists()) {
+            Role::create(['name' => 'admin']);
+        }
 
-        // Create member role
-        Role::create(['name' => RoleName::MEMBER->value]);
+        if (!Role::where('name', 'member')->exists()) {
+            Role::create(['name' => 'member']);
+        }
     }
 }
