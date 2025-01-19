@@ -1,7 +1,19 @@
 <div class="min-h-screen bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Header -->
+        <div class="md:flex md:items-center md:justify-between">
+            <div class="flex-1 min-w-0">
+                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+                    Job Positions
+                </h2>
+                <p class="mt-1 text-sm text-gray-500">
+                    Find your next career opportunity from our curated list of positions
+                </p>
+            </div>
+        </div>
+
         <!-- Search and Filters -->
-        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div class="mt-8 bg-white rounded-lg shadow-sm p-6">
             <div class="space-y-4">
                 <!-- Search -->
                 <div>
@@ -42,48 +54,60 @@
         </div>
 
         <!-- Position Listings -->
-        <div class="space-y-6">
+        <div class="mt-8 grid gap-6">
             @forelse($positions as $position)
-                <div wire:key="{{ $position->id }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow-md transition-shadow duration-200">
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <div class="flex items-center">
-                                @if($position->company->logo)
-                                    <img src="{{ $position->company->logo }}" alt="{{ $position->company->name }}" class="h-12 w-12 rounded-full">
-                                @else
-                                    <div class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center">
-                                        <span class="text-gray-500 text-lg font-bold">{{ substr($position->company->name, 0, 1) }}</span>
-                                    </div>
-                                @endif
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">
-                                        <a href="{{ route('positions.show', $position) }}" class="hover:text-indigo-600">{{ $position->title }}</a>
-                                    </h3>
-                                    <div class="mt-1">
-                                        <span class="text-sm text-gray-500">{{ $position->company->name }}</span>
-                                        <span class="text-gray-400 mx-2">&middot;</span>
-                                        <span class="text-sm text-gray-500">{{ $position->location }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-4">
-                                <div class="flex items-center space-x-4">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $position->type === 'full-time' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800' }}">
-                                        {{ ucfirst($position->type) }}
-                                    </span>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                        {{ $position->category->name }}
-                                    </span>
-                                    @if($position->salary_min && $position->salary_max)
-                                        <span class="text-sm text-gray-500">${{ number_format($position->salary_min) }} - ${{ number_format($position->salary_max) }}</span>
+                <div wire:key="{{ $position->id }}" class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center">
+                                    @if($position->company->logo)
+                                        <img src="{{ $position->company->logo }}" alt="{{ $position->company->name }}" class="h-12 w-12 rounded-lg object-cover mr-6">
+                                    @else
+                                        <img
+                                            src="https://ui-avatars.com/api/?name={{ urlencode($position->company->name) }}&background=818CF8&color=fff&size=48&bold=true"
+                                            alt="{{ $position->company->name }}"
+                                            class="h-12 w-12 rounded-lg object-cover mr-6"
+                                        >
                                     @endif
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-medium text-gray-900">
+                                            <a href="{{ route('positions.show', $position) }}" class="hover:text-indigo-600">{{ $position->title }}</a>
+                                        </h3>
+                                        <div class="mt-1">
+                                            <span class="text-sm text-gray-600">{{ $position->company->name }}</span>
+                                            <span class="text-gray-400 mx-2">&middot;</span>
+                                            <span class="text-sm text-gray-500">{{ $position->location }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $position->type === 'full-time' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800' }}">
+                                            {{ ucfirst($position->type) }}
+                                        </span>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                            {{ $position->category->name }}
+                                        </span>
+                                        @if($position->salary_min && $position->salary_max)
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                                ${{ number_format($position->salary_min) }} - ${{ number_format($position->salary_max) }}
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="ml-4">
-                            <span class="text-sm text-gray-500">
-                                {{ $position->created_at->diffForHumans() }}
-                            </span>
+                            <div class="ml-4 flex flex-col items-end">
+                                <span class="text-sm text-gray-500">
+                                    {{ $position->created_at->diffForHumans() }}
+                                </span>
+                                <a href="{{ route('positions.show', $position) }}" class="mt-4 inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                    View details
+                                    <svg class="ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
