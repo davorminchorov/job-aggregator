@@ -6,8 +6,6 @@ use App\Enums\RoleName;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\JobPosition;
-use App\Models\JobPositionSource;
-use App\Models\JobPositionSourceType;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;

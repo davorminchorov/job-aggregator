@@ -14,8 +14,9 @@ class SeedDevelopmentData extends Command
 
     public function handle(): int
     {
-        if (!App::environment('local')) {
+        if (! App::environment('local')) {
             $this->error('This command can only be run in the local environment!');
+
             return self::FAILURE;
         }
 
