@@ -22,16 +22,30 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'JobNexus' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>JN</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
 </head>
 <body class="min-h-screen bg-slate-50 dark:bg-slate-900">
-    <nav class="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-900/10 dark:border-slate-300/10">
+    <nav class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="/" class="text-xl font-bold text-violet-600 dark:text-violet-400">JobNexus</a>
+                        <a href="{{ route('positions.index') }}" class="flex items-center">
+                            <svg class="h-8 w-auto text-violet-600 dark:text-violet-400" viewBox="0 0 200 40">
+                                <text x="0" y="30" font-family="ui-sans-serif" font-weight="bold" font-size="24">
+                                    <tspan fill="currentColor">Job</tspan>
+                                    <tspan fill="#818CF8">Nexus</tspan>
+                                </text>
+                            </svg>
+                        </a>
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
                         <a href="{{ route('positions.index') }}" class="inline-flex items-center px-1 pt-1 text-sm font-medium {{ request()->routeIs('positions.*') ? 'text-slate-900 dark:text-white border-b-2 border-violet-500' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300' }}">
