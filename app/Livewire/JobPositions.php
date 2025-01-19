@@ -7,6 +7,7 @@ use App\Models\JobPosition;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class JobPositions extends Component
 {
@@ -29,6 +30,24 @@ class JobPositions extends Component
     public function updatedCategory()
     {
         $this->resetPage();
+    }
+
+    public function toggleBookmark(JobPosition $jobPosition): void
+    {
+        if (!Auth::check()) {
+            $this->redirectRoute('login');
+            return;
+        }
+
+        $user = Auth::user();
+
+        if ($jobPosition->isBookmarkedByUser($user)) {
+            $user->bookmarks()->detach($jobPosition);
+            $this->dispatch('job-position-unbookmarked');
+        } else {
+            $user->bookmarks()->attach($jobPosition);
+            $this->dispatch('job-position-bookmarked');
+        }
     }
 
     public function render()

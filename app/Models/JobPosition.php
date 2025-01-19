@@ -6,6 +6,7 @@ use App\Enums\JobType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class JobPosition extends Model
 {
@@ -39,5 +40,20 @@ class JobPosition extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function bookmarkedByUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'bookmarks')
+            ->withTimestamps();
+    }
+
+    public function isBookmarkedByUser(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $this->bookmarkedByUsers()->where('user_id', $user->id)->exists();
     }
 }
