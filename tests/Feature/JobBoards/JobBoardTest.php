@@ -3,8 +3,8 @@
 namespace Tests\Feature\JobBoards;
 
 use App\Services\JobBoards\IndeedJobBoard;
-use App\Services\JobBoards\LinkedInJobBoard;
 use App\Services\JobBoards\JobBoardFactory;
+use App\Services\JobBoards\LinkedInJobBoard;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -27,7 +27,7 @@ class JobBoardTest extends TestCase
     #[Group('job-boards')]
     public function factoryCreatesCorrectJobBoard(): void
     {
-        $factory = new JobBoardFactory();
+        $factory = new JobBoardFactory;
 
         $indeedBoard = $factory->create('indeed');
         $linkedInBoard = $factory->create('linkedin');
@@ -40,7 +40,7 @@ class JobBoardTest extends TestCase
     #[Group('job-boards')]
     public function factoryThrowsExceptionForInvalidSource(): void
     {
-        $factory = new JobBoardFactory();
+        $factory = new JobBoardFactory;
 
         $this->expectException(\InvalidArgumentException::class);
         $factory->create('invalid-source');
@@ -50,7 +50,7 @@ class JobBoardTest extends TestCase
     #[Group('job-boards')]
     public function indeedBoardParsesResponseCorrectly(): void
     {
-        $board = new IndeedJobBoard();
+        $board = new IndeedJobBoard;
         $positions = $board->fetch();
 
         $this->assertCount(2, $positions);
@@ -67,7 +67,7 @@ class JobBoardTest extends TestCase
     #[Group('job-boards')]
     public function linkedInBoardParsesResponseCorrectly(): void
     {
-        $board = new LinkedInJobBoard();
+        $board = new LinkedInJobBoard;
         $positions = $board->fetch();
 
         $this->assertCount(1, $positions);
@@ -88,7 +88,7 @@ class JobBoardTest extends TestCase
             'api.indeed.com/*' => Http::response(['jobs' => []], 200),
         ]);
 
-        $board = new IndeedJobBoard();
+        $board = new IndeedJobBoard;
         $positions = $board->fetch();
 
         $this->assertEmpty($positions);
@@ -102,7 +102,7 @@ class JobBoardTest extends TestCase
             'api.linkedin.com/*' => Http::response(['positions' => []], 200),
         ]);
 
-        $board = new LinkedInJobBoard();
+        $board = new LinkedInJobBoard;
         $positions = $board->fetch();
 
         $this->assertEmpty($positions);
@@ -122,7 +122,7 @@ class JobBoardTest extends TestCase
             ], 200),
         ]);
 
-        $board = new IndeedJobBoard();
+        $board = new IndeedJobBoard;
         $positions = $board->fetch();
 
         $this->assertCount(1, $positions);
@@ -146,7 +146,7 @@ class JobBoardTest extends TestCase
             ], 200),
         ]);
 
-        $board = new LinkedInJobBoard();
+        $board = new LinkedInJobBoard;
         $positions = $board->fetch();
 
         $this->assertCount(1, $positions);
@@ -165,8 +165,8 @@ class JobBoardTest extends TestCase
             'api.linkedin.com/*' => Http::response(['error' => 'Service unavailable'], 503),
         ]);
 
-        $indeedBoard = new IndeedJobBoard();
-        $linkedInBoard = new LinkedInJobBoard();
+        $indeedBoard = new IndeedJobBoard;
+        $linkedInBoard = new LinkedInJobBoard;
 
         $this->expectException(\RuntimeException::class);
         $indeedBoard->fetch();

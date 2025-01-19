@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\JobPosition;
 use App\Services\JobBoards\IndeedJobBoard;
-use App\Services\JobBoards\LinkedInJobBoard;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
@@ -57,7 +56,7 @@ class JobPositionSyncTest extends TestCase
     #[Group('sync')]
     public function syncCreatesNewPositions(): void
     {
-        $indeedBoard = new IndeedJobBoard();
+        $indeedBoard = new IndeedJobBoard;
         $positions = $indeedBoard->fetch();
 
         $this->assertCount(2, $positions);
@@ -84,7 +83,7 @@ class JobPositionSyncTest extends TestCase
             'source' => 'indeed',
         ]);
 
-        $indeedBoard = new IndeedJobBoard();
+        $indeedBoard = new IndeedJobBoard;
         $positions = $indeedBoard->fetch();
 
         $this->assertDatabaseHas('job_positions', [
@@ -106,7 +105,7 @@ class JobPositionSyncTest extends TestCase
             'created_at' => now()->subDays(31),
         ]);
 
-        $indeedBoard = new IndeedJobBoard();
+        $indeedBoard = new IndeedJobBoard;
         $positions = $indeedBoard->fetch();
 
         $this->assertDatabaseMissing('job_positions', [
@@ -122,7 +121,7 @@ class JobPositionSyncTest extends TestCase
             'api.indeed.com/*' => Http::response(['error' => 'Rate limit exceeded'], 429),
         ]);
 
-        $indeedBoard = new IndeedJobBoard();
+        $indeedBoard = new IndeedJobBoard;
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Rate limit exceeded');
@@ -138,7 +137,7 @@ class JobPositionSyncTest extends TestCase
             'api.indeed.com/*' => Http::response(['invalid' => 'data'], 200),
         ]);
 
-        $indeedBoard = new IndeedJobBoard();
+        $indeedBoard = new IndeedJobBoard;
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Invalid response format');
@@ -162,7 +161,7 @@ class JobPositionSyncTest extends TestCase
             'status' => 'pending',
         ]);
 
-        $indeedBoard = new IndeedJobBoard();
+        $indeedBoard = new IndeedJobBoard;
         $positions = $indeedBoard->fetch();
 
         $this->assertDatabaseHas('job_applications', [
