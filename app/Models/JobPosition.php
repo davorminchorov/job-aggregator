@@ -50,7 +50,7 @@ class JobPosition extends Model
 
     public function isBookmarkedByUser(?User $user): bool
     {
-        if (!$user) {
+        if (! $user) {
             return false;
         }
 

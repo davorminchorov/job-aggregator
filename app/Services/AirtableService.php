@@ -20,7 +20,7 @@ class AirtableService
             'filterByFormula' => "IS_AFTER(CREATED_TIME(), DATEADD(NOW(), -1, 'days'))",
         ]);
 
-        if (!$response->successful()) {
+        if (! $response->successful()) {
             throw new \Exception('Failed to fetch data from Airtable: ' . $response->body());
         }
 
@@ -66,6 +66,7 @@ class AirtableService
         }
 
         preg_match('/\$?(\d+)k?/i', $salaryRange, $matches);
+
         return isset($matches[1]) ? (int) $matches[1] * 1000 : null;
     }
 
@@ -76,6 +77,7 @@ class AirtableService
         }
 
         preg_match('/\$?(\d+)k?.*-.*\$?(\d+)k?/i', $salaryRange, $matches);
+
         return isset($matches[2]) ? (int) $matches[2] * 1000 : null;
     }
 

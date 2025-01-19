@@ -4,10 +4,10 @@ namespace App\Livewire;
 
 use App\Models\Category;
 use App\Models\JobPosition;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
 
 class JobPositions extends Component
 {
@@ -34,8 +34,9 @@ class JobPositions extends Component
 
     public function toggleBookmark(JobPosition $jobPosition): void
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             $this->redirectRoute('login');
+
             return;
         }
 
