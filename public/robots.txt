@@ -1,2 +1,37 @@
+# Disallow all web crawlers from accessing the site
 User-agent: *
-Disallow:
+Disallow: /
+
+# Explicitly disallow common bots
+User-agent: Googlebot
+Disallow: /
+
+User-agent: Bingbot
+Disallow: /
+
+User-agent: Slurp
+Disallow: /
+
+User-agent: DuckDuckBot
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: YandexBot
+Disallow: /
+
+# Prevent media files from being indexed
+User-agent: *
+Disallow: /*.jpg$
+Disallow: /*.jpeg$
+Disallow: /*.gif$
+Disallow: /*.png$
+Disallow: /*.pdf$
+
+# Prevent admin and authentication pages
+User-agent: *
+Disallow: /admin
+Disallow: /login
+Disallow: /register
+Disallow: /password
