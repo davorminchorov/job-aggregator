@@ -27,7 +27,7 @@ class JobPositionsTest extends TestCase
     #[Test]
     #[Group('job-positions')]
     #[Group('view')]
-    public function test_user_can_view_job_positions_page(): void
+    public function job_positions_index_page_displays_all_required_information(): void
     {
         // Create test data
         $company = Company::factory()->create();
@@ -50,7 +50,7 @@ class JobPositionsTest extends TestCase
     #[Test]
     #[Group('job-positions')]
     #[Group('search')]
-    public function test_user_can_search_job_positions(): void
+    public function job_positions_can_be_searched_by_title_and_description(): void
     {
         // Create test data
         $company = Company::factory()->create();
@@ -87,7 +87,7 @@ class JobPositionsTest extends TestCase
     #[Test]
     #[Group('job-positions')]
     #[Group('filter')]
-    public function test_user_can_filter_job_positions_by_category(): void
+    public function job_positions_can_be_filtered_by_category(): void
     {
         // Create test data
         $company = Company::factory()->create();
@@ -168,7 +168,7 @@ class JobPositionsTest extends TestCase
     #[Test]
     #[Group('job-positions')]
     #[Group('sort')]
-    public function test_user_can_sort_job_positions(): void
+    public function job_positions_can_be_sorted_by_salary_date_and_title(): void
     {
         // Create a category and company for the job positions
         $category = Category::factory()->create();
@@ -229,7 +229,7 @@ class JobPositionsTest extends TestCase
     #[Test]
     #[Group('job-positions')]
     #[Group('view')]
-    public function test_user_can_view_job_position_details(): void
+    public function job_position_details_page_shows_complete_information(): void
     {
         // Create test data
         $company = Company::factory()->create();
@@ -289,7 +289,7 @@ class JobPositionsTest extends TestCase
     #[Test]
     #[Group('job-positions')]
     #[Group('empty-state')]
-    public function test_empty_state_is_shown_when_no_positions(): void
+    public function empty_state_is_shown_when_no_positions(): void
     {
         $response = $this->get(route('positions.index'));
 
