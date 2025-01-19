@@ -92,13 +92,6 @@
 
             <!-- Sidebar -->
             <div class="space-y-8">
-                <!-- Apply Button -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm ring-1 ring-slate-900/5 dark:ring-slate-800 p-6">
-                    <a href="{{ route('positions.apply', $position) }}" class="block w-full text-center px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 dark:focus:ring-offset-slate-800 rounded-lg shadow-sm">
-                        Apply for this position
-                    </a>
-                </div>
-
                 <!-- Company Info -->
                 <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm ring-1 ring-slate-900/5 dark:ring-slate-800 p-6">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">About {{ $position->company->name }}</h2>
