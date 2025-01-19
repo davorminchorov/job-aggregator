@@ -37,25 +37,33 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">{{ __('Forgot your password?') }}</h2>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">{{ __('No problem. Just let us know your email address and we will email you a password reset link.') }}</p>
     </div>
 
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form wire:submit="sendPasswordResetLink">
+    <form wire:submit="sendPasswordResetLink" class="space-y-6">
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus />
+            <x-input-label for="email" :value="__('Email')" class="text-sm font-medium text-slate-700 dark:text-slate-300" />
+            <x-text-input wire:model="email" id="email" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400" type="email" name="email" required autofocus />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
+        <div>
+            <x-primary-button class="w-full justify-center bg-violet-600 hover:bg-violet-500 focus:ring-violet-500">
+                {{ __('Send Reset Link') }}
             </x-primary-button>
         </div>
+
+        <p class="text-center text-sm text-slate-600 dark:text-slate-400">
+            {{ __('Remember your password?') }}
+            <a href="{{ route('login') }}" class="font-medium text-violet-600 hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300" wire:navigate>
+                {{ __('Sign in') }}
+            </a>
+        </p>
     </form>
 </div>
