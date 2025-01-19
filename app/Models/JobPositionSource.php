@@ -19,7 +19,7 @@ class JobPositionSource extends Model
     ];
 
     protected $casts = [
-        'credentials' => 'encrypted:array',
+        'credentials' => 'array',
         'last_synced_at' => 'datetime',
         'is_active' => 'boolean',
     ];
