@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
-    darkMode: localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+    darkMode: localStorage.getItem('darkMode') === 'true',
     toggleDarkMode() {
         this.darkMode = !this.darkMode;
         localStorage.setItem('darkMode', this.darkMode);
+        document.documentElement.classList.toggle('dark', this.darkMode);
     },
     mobileMenuOpen: false
-}" x-init="$watch('darkMode', value => document.documentElement.classList.toggle('dark', value))" :class="{ 'dark': darkMode }">
+}" x-init="
+    if (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        darkMode = true;
+        localStorage.setItem('darkMode', 'true');
+    }
+    document.documentElement.classList.toggle('dark', darkMode);
+">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
