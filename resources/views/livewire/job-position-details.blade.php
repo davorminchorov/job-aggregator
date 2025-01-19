@@ -22,15 +22,15 @@
                 <div class="flex items-start justify-between">
                     <div class="flex items-center">
                         @if($position->company->logo)
-                            <img src="{{ $position->company->logo }}" alt="{{ $position->company->name }}" class="h-16 w-16 rounded-lg object-cover">
+                            <img src="{{ $position->company->logo }}" alt="{{ $position->company->name }}" class="h-16 w-16 rounded-lg object-cover mr-6">
                         @else
                             <img
                                 src="https://ui-avatars.com/api/?name={{ urlencode($position->company->name) }}&background=818CF8&color=fff&size=64&bold=true"
                                 alt="{{ $position->company->name }}"
-                                class="h-16 w-16 rounded-lg object-cover"
+                                class="h-16 w-16 rounded-lg object-cover mr-6"
                             >
                         @endif
-                        <div class="ml-6">
+                        <div class="flex-1">
                             <h1 class="text-2xl font-bold text-gray-900">{{ $position->title }}</h1>
                             <div class="mt-2">
                                 <p class="text-lg text-gray-600">{{ $position->company->name }}</p>
