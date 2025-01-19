@@ -1,5 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true', mobileMenuOpen: false }" x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))" :class="{ 'dark': darkMode }">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
+    darkMode: localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+    toggleDarkMode() {
+        this.darkMode = !this.darkMode;
+        localStorage.setItem('darkMode', this.darkMode);
+    },
+    mobileMenuOpen: false
+}" x-init="$watch('darkMode', value => document.documentElement.classList.toggle('dark', value))" :class="{ 'dark': darkMode }">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,12 +72,14 @@
                     </div>
                     <!-- Theme toggle -->
                     <button
-                        x-on:click="darkMode = !darkMode"
-                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none bg-gray-200 dark:bg-indigo-600"
+                        x-on:click="toggleDarkMode()"
+                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                        :class="darkMode ? 'bg-indigo-600' : 'bg-gray-200'"
                         title="Toggle theme"
                     >
                         <span
-                            class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform dark:translate-x-6 translate-x-1"
+                            class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                            :class="darkMode ? 'translate-x-6' : 'translate-x-1'"
                             aria-hidden="true"
                         >
                         </span>
