@@ -137,32 +137,53 @@ return [
     */
 
     'recorders' => [
-        // Monitor job syncing
-        Pulse::job()
-            ->range(30, 'minutes')
-            ->queues(['job-positions']),
+        // Monitor jobs and queues
+        Recorders\Queues::class => [
+            'enabled' => true,
+            'sample_rate' => 1,
+            'ignore' => [],
+        ],
 
-        // Monitor Redis
-        Pulse::redis()
-            ->connection('default'),
-
-        // Monitor queue waiting time
-        Pulse::queue()
-            ->connection('redis'),
+        // Monitor slow jobs
+        Recorders\SlowJobs::class => [
+            'enabled' => true,
+            'sample_rate' => 1,
+            'threshold' => 1000, // 1 second
+            'ignore' => [],
+        ],
 
         // Monitor exceptions
-        Pulse::exceptions()
-            ->range(30, 'minutes')
-            ->notify(fn () => true),
+        Recorders\Exceptions::class => [
+            'enabled' => true,
+            'sample_rate' => 1,
+            'location' => true,
+            'ignore' => [],
+        ],
 
         // Monitor slow queries
-        Pulse::slow(50)
-            ->notify(fn () => true),
+        Recorders\SlowQueries::class => [
+            'enabled' => true,
+            'sample_rate' => 1,
+            'threshold' => 50, // 50ms
+            'location' => true,
+            'ignore' => [
+                '/(["`])pulse_[\w]+?\1/', // Pulse tables
+            ],
+        ],
 
-        // Monitor server usage
-        Pulse::usage()
-            ->useDisk()
-            ->useMemory()
-            ->useCpu(),
+        // Monitor server metrics
+        Recorders\Servers::class => [
+            'server_name' => env('PULSE_SERVER_NAME', gethostname()),
+            'directories' => ['/'],
+        ],
+
+        // Monitor cache
+        Recorders\CacheInteractions::class => [
+            'enabled' => true,
+            'sample_rate' => 1,
+            'ignore' => [
+                ...Pulse::defaultVendorCacheKeys(),
+            ],
+        ],
     ],
 ];
