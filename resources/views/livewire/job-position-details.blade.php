@@ -58,7 +58,7 @@
                             <svg class="h-5 w-5 text-slate-400 dark:text-slate-500 mr-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            {{ $position->salary_range }}
+                            ${{ number_format($position->salary_min) }} - ${{ number_format($position->salary_max) }} per year
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,18 @@
                 <div class="bg-white dark:bg-slate-800/50 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700/50 p-6 backdrop-blur-sm">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Requirements</h2>
                     <div class="prose dark:prose-invert max-w-none">
-                        {!! $position->requirements !!}
+                        <ul class="space-y-3 list-none pl-0">
+                            @foreach(explode('-', trim($position->requirements, '- ')) as $requirement)
+                                @if(trim($requirement))
+                                    <li class="flex items-start">
+                                        <svg class="h-5 w-5 text-violet-500 dark:text-violet-400 mr-3 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span class="text-slate-700 dark:text-slate-300">{{ trim($requirement) }}</span>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
 
@@ -89,7 +100,18 @@
                 <div class="bg-white dark:bg-slate-800/50 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700/50 p-6 backdrop-blur-sm">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Benefits</h2>
                     <div class="prose dark:prose-invert max-w-none">
-                        {!! $position->benefits !!}
+                        <ul class="space-y-3 list-none pl-0">
+                            @foreach(explode('-', trim($position->benefits, '- ')) as $benefit)
+                                @if(trim($benefit))
+                                    <li class="flex items-start">
+                                        <svg class="h-5 w-5 text-emerald-500 dark:text-emerald-400 mr-3 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        <span class="text-slate-700 dark:text-slate-300">{{ trim($benefit) }}</span>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
