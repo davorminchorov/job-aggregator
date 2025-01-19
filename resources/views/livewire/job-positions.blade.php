@@ -52,8 +52,8 @@
                                 class="block w-full py-2.5 pl-3 pr-10 text-sm border-slate-300 dark:border-slate-600/50 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 dark:focus:ring-violet-400 dark:focus:border-violet-400"
                             >
                                 <option value="latest">Latest</option>
-                                <option value="salary_desc">Highest Salary</option>
-                                <option value="salary_asc">Lowest Salary</option>
+                                <option value="salary_high">Highest Salary</option>
+                                <option value="salary_low">Lowest Salary</option>
                             </select>
                         </div>
                     </div>
