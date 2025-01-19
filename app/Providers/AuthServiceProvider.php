@@ -22,10 +22,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('viewHorizon', function ($user) {
-            return $user->hasRole(RoleName::ADMIN->value);
-        });
-
         Gate::define('viewPulse', function ($user) {
             return $user->hasRole(RoleName::ADMIN->value);
         });
