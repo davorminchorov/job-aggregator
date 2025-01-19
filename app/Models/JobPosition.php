@@ -25,11 +25,22 @@ class JobPosition extends Model
         'salary_range',
         'location',
         'type',
+        'experience_level',
+        'salary_min',
+        'salary_max',
+        'application_deadline',
+        'is_remote',
+        'is_featured',
+        'is_filled',
     ];
 
     protected $casts = [
         'type' => JobType::class,
         'benefits' => 'array',
+        'application_deadline' => 'datetime',
+        'is_remote' => 'boolean',
+        'is_featured' => 'boolean',
+        'is_filled' => 'boolean',
     ];
 
     public function company(): BelongsTo

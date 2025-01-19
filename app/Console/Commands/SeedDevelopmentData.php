@@ -19,14 +19,6 @@ class SeedDevelopmentData extends Command
             return self::FAILURE;
         }
 
-        if (!$this->confirm('This will reset your database. Are you sure you want to continue?')) {
-            $this->info('Operation cancelled.');
-            return self::SUCCESS;
-        }
-
-        $this->info('Refreshing database...');
-        $this->call('migrate:fresh');
-
         $this->info('Seeding development data...');
         $this->call('db:seed', ['--class' => DevelopmentSeeder::class]);
 
