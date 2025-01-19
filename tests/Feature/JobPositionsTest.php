@@ -6,11 +6,20 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\JobPosition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class JobPositionsTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Create the member role
+        Role::create(['name' => 'member']);
+    }
 
     public function test_user_can_view_job_positions_page(): void
     {
@@ -43,18 +52,24 @@ class JobPositionsTest extends TestCase
             'company_id' => $company->id,
             'category_id' => $category->id,
             'title' => 'Senior Laravel Developer',
+            'description' => 'PHP development position',
         ]);
 
         $nonMatchingPosition = JobPosition::factory()->create([
             'company_id' => $company->id,
             'category_id' => $category->id,
             'title' => 'React Developer',
+            'description' => 'Frontend position',
         ]);
 
-        // Test the search functionality
+        // Test title search
         $response = $this->get(route('positions.index', ['search' => 'Laravel']));
+        $response->assertStatus(200);
+        $response->assertSee($matchingPosition->title);
+        $response->assertDontSee($nonMatchingPosition->title);
 
-        // Assert the response
+        // Test description search
+        $response = $this->get(route('positions.index', ['search' => 'PHP development']));
         $response->assertStatus(200);
         $response->assertSee($matchingPosition->title);
         $response->assertDontSee($nonMatchingPosition->title);
@@ -99,6 +114,7 @@ class JobPositionsTest extends TestCase
             'salary_max' => 60000,
             'category_id' => $category->id,
             'company_id' => $company->id,
+            'created_at' => now()->subDay(),
         ]);
 
         $highSalaryPosition = JobPosition::factory()->create([
@@ -107,6 +123,7 @@ class JobPositionsTest extends TestCase
             'salary_max' => 150000,
             'category_id' => $category->id,
             'company_id' => $company->id,
+            'created_at' => now(),
         ]);
 
         // Test sorting by lowest salary
@@ -123,6 +140,22 @@ class JobPositionsTest extends TestCase
         $response->assertSeeInOrder([
             'Senior Developer',
             'Junior Developer',
+        ]);
+
+        // Test sorting by latest
+        $response = $this->get(route('positions.index', ['sortBy' => 'latest']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            'Senior Developer',
+            'Junior Developer',
+        ]);
+
+        // Test sorting by title
+        $response = $this->get(route('positions.index', ['sortBy' => 'title']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            'Junior Developer',
+            'Senior Developer',
         ]);
     }
 
@@ -160,5 +193,13 @@ class JobPositionsTest extends TestCase
         $response->assertSee('Remote work');
         $response->assertSee('Health insurance');
         $response->assertSee('$80,000 - $120,000 per year');
+    }
+
+    public function test_empty_state_is_shown_when_no_positions(): void
+    {
+        $response = $this->get(route('positions.index'));
+
+        $response->assertStatus(200);
+        $response->assertSee('No positions found');
     }
 }

@@ -6,11 +6,20 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\JobPosition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class CategoriesTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Create the member role
+        Role::create(['name' => 'member']);
+    }
 
     public function test_user_can_view_categories_page(): void
     {
@@ -34,16 +43,26 @@ class CategoriesTest extends TestCase
     public function test_user_can_search_categories(): void
     {
         // Create categories with unique slugs
-        Category::factory()->create([
+        $matchingCategory = Category::factory()->create([
             'name' => 'Frontend Development',
             'slug' => 'frontend-development',
-        ]);
-        Category::factory()->create([
-            'name' => 'Backend Development',
-            'slug' => 'backend-development',
+            'description' => 'Frontend development positions',
         ]);
 
+        $nonMatchingCategory = Category::factory()->create([
+            'name' => 'Backend Development',
+            'slug' => 'backend-development',
+            'description' => 'Backend development positions',
+        ]);
+
+        // Test name search
         $response = $this->get(route('categories.index', ['search' => 'Frontend']));
+        $response->assertStatus(200);
+        $response->assertSee('Frontend Development');
+        $response->assertDontSee('Backend Development');
+
+        // Test description search
+        $response = $this->get(route('categories.index', ['search' => 'Frontend development positions']));
         $response->assertStatus(200);
         $response->assertSee('Frontend Development');
         $response->assertDontSee('Backend Development');
@@ -67,7 +86,7 @@ class CategoriesTest extends TestCase
         ]);
 
         // Test sorting by most positions
-        $response = $this->get(route('categories.index', ['sortBy' => 'positions_desc']));
+        $response = $this->get(route('categories.index', ['sortBy' => 'positions_count']));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $categoryA->name,
@@ -75,11 +94,19 @@ class CategoriesTest extends TestCase
         ]);
 
         // Test sorting by name
-        $response = $this->get(route('categories.index', ['sortBy' => 'name_asc']));
+        $response = $this->get(route('categories.index', ['sortBy' => 'name']));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $categoryA->name,
             $categoryB->name,
+        ]);
+
+        // Test sorting by latest
+        $response = $this->get(route('categories.index', ['sortBy' => 'latest']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $categoryB->name,
+            $categoryA->name,
         ]);
     }
 
