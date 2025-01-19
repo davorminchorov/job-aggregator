@@ -51,3 +51,13 @@
     --color-info-900: 12 74 110;    /* sky-900 */
     --color-info-950: 8 47 73;      /* sky-950 */
 }
+
+/* Center the logo on the login page */
+.fi-logo {
+    @apply mx-auto;
+}
+
+/* Adjust logo size */
+.fi-logo img {
+    @apply h-12 w-auto;
+}

@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->brandName('JobNexus')
             ->brandLogo(asset('images/logo.svg'))
+            ->darkModeBrandLogo(asset('images/logo.svg'))
             ->favicon(asset('favicon.ico'))
             ->colors([
                 'primary' => Color::Violet,
