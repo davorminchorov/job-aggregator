@@ -36,7 +36,7 @@ class JobPosition extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function applications(): HasMany
+    public function jobApplications(): HasMany
     {
         return $this->hasMany(JobApplication::class);
     }

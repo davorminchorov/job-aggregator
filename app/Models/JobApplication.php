@@ -26,4 +26,9 @@ class JobApplication extends Model
     {
         return $this->belongsTo(JobPosition::class);
     }
+
+    public function company(): BelongsTo
+    {
+        return $this->hasOneThrough(Company::class, JobPosition::class, 'id', 'id', 'job_position_id', 'company_id');
+    }
 }
