@@ -1,13 +1,13 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Header -->
         <div class="md:flex md:items-center md:justify-between">
             <div class="flex-1 min-w-0">
-                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                    Position Categories
+                <h2 class="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">
+                    Categories
                 </h2>
-                <p class="mt-1 text-sm text-gray-500">
-                    Browse all position categories and find the perfect role for you
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    Browse job positions by category
                 </p>
             </div>
         </div>
@@ -43,39 +43,31 @@
         <!-- Categories Grid -->
         <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse($categories as $category)
-                <div wire:key="{{ $category->id }}" class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+                <div wire:key="{{ $category->id }}" class="bg-white dark:bg-gray-800 overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
                     <div class="p-6">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
-                                <h3 class="text-lg font-medium text-gray-900">
-                                    <a href="{{ route('positions.index', ['category' => $category->slug]) }}" class="hover:text-indigo-600">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                    <a href="{{ route('positions.index', ['category' => $category->slug]) }}" class="hover:text-indigo-600 dark:hover:text-indigo-400">
                                         {{ $category->name }}
                                     </a>
                                 </h3>
-                                <p class="mt-1 text-sm text-gray-500">
-                                    {{ $category->job_positions_count }} {{ Str::plural('position', $category->job_positions_count) }} available
+                                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    {{ $category->description }}
                                 </p>
+                                <div class="mt-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
+                                        {{ $category->positions_count }} {{ Str::plural('position', $category->positions_count) }}
+                                    </span>
+                                </div>
                             </div>
                             <div class="ml-4">
-                                <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100">
-                                    <svg class="h-6 w-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                <a href="{{ route('positions.index', ['category' => $category->slug]) }}" class="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                     </svg>
-                                </span>
+                                </a>
                             </div>
-                        </div>
-                        @if($category->description)
-                            <p class="mt-3 text-sm text-gray-500 line-clamp-2">
-                                {{ $category->description }}
-                            </p>
-                        @endif
-                        <div class="mt-4">
-                            <a href="{{ route('positions.index', ['category' => $category->slug]) }}" class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                View positions
-                                <svg class="ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
                         </div>
                     </div>
                 </div>
