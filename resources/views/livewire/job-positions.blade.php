@@ -83,15 +83,15 @@
                                     @endphp
                                     <div class="flex-shrink-0">
                                         @if($position->company->logo)
-                                            <img src="{{ $position->company->logo }}" alt="{{ $position->company->name }}" class="h-14 w-14 rounded-lg object-cover">
+                                            <img src="{{ $position->company->logo }}" alt="{{ $position->company->name }}" class="h-12 w-12 rounded-lg object-cover">
                                         @else
-                                            <div class="h-14 w-14 rounded-lg bg-indigo-100 flex items-center justify-center text-xl font-bold text-indigo-600">
+                                            <div class="h-12 w-12 rounded-lg bg-indigo-100 flex items-center justify-center text-lg font-bold text-indigo-600">
                                                 {{ $initials }}
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="ml-6 flex-1">
-                                        <h3 class="text-xl font-semibold text-gray-900">
+                                    <div class="ml-8 flex-1">
+                                        <h3 class="text-lg font-semibold text-gray-900">
                                             <a href="{{ route('positions.show', $position) }}" class="hover:text-indigo-600">{{ $position->title }}</a>
                                         </h3>
                                         <div class="mt-1 flex items-center text-sm text-gray-600">
