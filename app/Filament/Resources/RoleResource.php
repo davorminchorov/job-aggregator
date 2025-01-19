@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\RoleName;
 use App\Filament\Resources\RoleResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -14,9 +15,9 @@ class RoleResource extends Resource
 {
     protected static ?string $model = Role::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-key';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    protected static ?string $navigationGroup = 'User Management';
+    protected static ?string $navigationGroup = 'Administration';
 
     protected static ?int $navigationSort = 2;
 
@@ -75,24 +76,15 @@ class RoleResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn (Role $record): bool => ! in_array($record->name, [RoleName::ADMIN->value, RoleName::MEMBER->value])),
                 Tables\Actions\DeleteAction::make()
-                    ->before(function (Role $record) {
-                        // Prevent deletion of admin and member roles
-                        if (in_array($record->name, ['admin', 'member'])) {
-                            return false;
-                        }
-                    }),
+                    ->visible(fn (Role $record): bool => ! in_array($record->name, [RoleName::ADMIN->value, RoleName::MEMBER->value])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->before(function ($records) {
-                            // Prevent deletion of admin and member roles
-                            if ($records->contains('name', 'admin') || $records->contains('name', 'member')) {
-                                return false;
-                            }
-                        }),
+                        ->visible(fn ($records) => ! $records->contains('name', RoleName::ADMIN->value) && ! $records->contains('name', RoleName::MEMBER->value)),
                 ]),
             ]);
     }

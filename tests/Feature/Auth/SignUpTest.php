@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\RoleName;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -37,7 +38,7 @@ class SignUpTest extends TestCase
         $this->assertEquals('Test User', $user->name);
 
         // Verify user has member role
-        $this->assertTrue($user->hasRole('member'));
+        $this->assertTrue($user->hasRole(RoleName::MEMBER->value));
     }
 
     public function test_registration_requires_name(): void

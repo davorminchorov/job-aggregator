@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\RoleResource\Pages;
 
+use App\Enums\RoleName;
 use App\Filament\Resources\RoleResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -14,12 +15,7 @@ class EditRole extends EditRecord
     {
         return [
             Actions\DeleteAction::make()
-                ->before(function (Role $record) {
-                    // Prevent deletion of admin and member roles
-                    if (in_array($record->name, ['admin', 'member'])) {
-                        return false;
-                    }
-                }),
+                ->visible(fn () => ! in_array($this->record->name, [RoleName::ADMIN->value, RoleName::MEMBER->value])),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\RoleName;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\JobPosition;
@@ -18,7 +19,7 @@ class JobPositionsTest extends TestCase
         parent::setUp();
 
         // Create the member role
-        Role::create(['name' => 'member']);
+        Role::create(['name' => RoleName::MEMBER->value]);
     }
 
     public function test_user_can_view_job_positions_page(): void

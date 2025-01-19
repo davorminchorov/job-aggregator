@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\RoleName;
 use App\Models\Company;
 use App\Models\JobPosition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,7 +18,7 @@ class CompaniesTest extends TestCase
         parent::setUp();
 
         // Create the member role
-        Role::create(['name' => 'member']);
+        Role::create(['name' => RoleName::MEMBER->value]);
     }
 
     public function test_user_can_view_companies_page(): void
@@ -224,5 +225,13 @@ class CompaniesTest extends TestCase
             'Junior Developer',
             'Senior Developer',
         ]);
+    }
+
+    public function test_empty_state_is_shown_when_no_companies(): void
+    {
+        $response = $this->get('/companies');
+
+        $response->assertStatus(200);
+        $response->assertSee('No companies found');
     }
 }

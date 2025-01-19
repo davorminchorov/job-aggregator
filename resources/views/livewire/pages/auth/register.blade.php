@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use App\Enums\RoleName;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -31,7 +32,7 @@ new #[Layout('layouts.guest')] class extends Component
         event(new Registered($user = User::create($validated)));
 
         // Assign the member role to the new user
-        $user->assignRole('member');
+        $user->assignRole(RoleName::MEMBER->value);
 
         Auth::login($user);
 

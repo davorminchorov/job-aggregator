@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\RoleName;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -40,8 +42,11 @@ class LoginForm extends Form
         }
 
         // Check if the user is trying to access the admin panel
-        if (Request::is('admin*') && ! Auth::user()->hasRole('admin')) {
+        if (Request::is('admin*') && ! Auth::user()->hasRole(RoleName::ADMIN->value)) {
             Auth::logout();
+
+            Session::invalidate();
+            Session::regenerateToken();
 
             throw ValidationException::withMessages([
                 'form.email' => 'You do not have permission to access the admin panel.',
@@ -49,15 +54,19 @@ class LoginForm extends Form
         }
 
         // Check if the user is trying to access the main app
-        if (! Request::is('admin*') && ! Auth::user()->hasRole('member')) {
+        if (! Request::is('admin*') && ! Auth::user()->hasRole(RoleName::MEMBER->value)) {
             Auth::logout();
 
+            Session::invalidate();
+            Session::regenerateToken();
+
             throw ValidationException::withMessages([
-                'form.email' => 'Please use the admin panel to login.',
+                'form.email' => 'You do not have permission to access this area.',
             ]);
         }
 
         RateLimiter::clear($this->throttleKey());
+        Session::regenerate();
     }
 
     /**
