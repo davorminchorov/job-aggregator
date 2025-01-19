@@ -39,7 +39,13 @@ class JobPositionSourceResource extends Resource
                     ->maxLength(255),
                 Forms\Components\KeyValue::make('credentials')
                     ->required()
-                    ->hiddenLabel(),
+                    ->hiddenLabel()
+                    ->rules(['array'])
+                    ->beforeStateDehydrated(function ($state) {
+                        return array_map(function ($value) {
+                            return is_string($value) ? trim($value) : $value;
+                        }, $state ?? []);
+                    }),
                 Forms\Components\Toggle::make('is_active')
                     ->required(),
             ]);

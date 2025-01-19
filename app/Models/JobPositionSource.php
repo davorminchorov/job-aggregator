@@ -24,6 +24,15 @@ class JobPositionSource extends Model
         'is_active' => 'boolean',
     ];
 
+    protected function setCredentialsAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = json_decode($value, true);
+        }
+
+        $this->attributes['credentials'] = is_array($value) ? json_encode($value) : null;
+    }
+
     public function sourceType(): BelongsTo
     {
         return $this->belongsTo(JobPositionSourceType::class, 'job_position_source_type_id');
