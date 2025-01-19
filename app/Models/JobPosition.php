@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\JobType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +24,11 @@ class JobPosition extends Model
         'salary_range',
         'location',
         'type',
+    ];
+
+    protected $casts = [
+        'type' => JobType::class,
+        'benefits' => 'array',
     ];
 
     public function company(): BelongsTo
