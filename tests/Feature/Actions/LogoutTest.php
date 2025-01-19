@@ -20,7 +20,7 @@ class LogoutTest extends TestCase
 
         $this->assertAuthenticated();
 
-        (new Logout())();
+        (new Logout)();
 
         $this->assertGuest();
     }
@@ -35,7 +35,7 @@ class LogoutTest extends TestCase
         $this->session(['key' => 'value']);
         $this->assertSessionHas('key', 'value');
 
-        (new Logout())();
+        (new Logout)();
 
         $this->assertSessionMissing('key');
     }
@@ -49,7 +49,7 @@ class LogoutTest extends TestCase
 
         $token = session()->token();
 
-        (new Logout())();
+        (new Logout)();
 
         $this->assertNotEquals($token, session()->token());
     }

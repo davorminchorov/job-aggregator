@@ -17,7 +17,7 @@ class TelegramJobPositionSource extends AbstractJobPositionSource
             'offset' => -100, // Get last 100 messages
         ]);
 
-        if (!$response->successful()) {
+        if (! $response->successful()) {
             throw new \Exception('Failed to fetch data from Telegram: ' . $response->body());
         }
 
@@ -39,7 +39,7 @@ class TelegramJobPositionSource extends AbstractJobPositionSource
 
     public function validateCredentials(array $credentials): bool
     {
-        if (!isset($credentials['bot_token'], $credentials['chat_id'])) {
+        if (! isset($credentials['bot_token'], $credentials['chat_id'])) {
             return false;
         }
 
@@ -80,12 +80,14 @@ class TelegramJobPositionSource extends AbstractJobPositionSource
             // Try to identify the job title (usually in the first few lines)
             if (empty($data['title']) && str_contains($lowercaseLine, ['position:', 'role:', 'job:'])) {
                 $data['title'] = trim(explode(':', $line, 2)[1] ?? '');
+
                 continue;
             }
 
             // Try to identify the company
             if (empty($data['company_name']) && str_contains($lowercaseLine, ['company:', 'at:', 'organization:'])) {
                 $data['company_name'] = trim(explode(':', $line, 2)[1] ?? '');
+
                 continue;
             }
 
@@ -108,6 +110,6 @@ class TelegramJobPositionSource extends AbstractJobPositionSource
             $data['title'] = trim($lines[0]);
         }
 
-        return !empty($data['title']) ? $data : null;
+        return ! empty($data['title']) ? $data : null;
     }
 }

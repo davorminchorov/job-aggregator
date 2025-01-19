@@ -12,7 +12,7 @@ class JobPositionSourceFactory
 
     public function register(string $key, string $class): void
     {
-        if (!is_subclass_of($class, JobPositionSourceInterface::class)) {
+        if (! is_subclass_of($class, JobPositionSourceInterface::class)) {
             throw new InvalidArgumentException("Class {$class} must implement JobPositionSourceInterface");
         }
 
@@ -23,7 +23,7 @@ class JobPositionSourceFactory
     {
         $key = $source->sourceType->key;
 
-        if (!isset($this->sources[$key])) {
+        if (! isset($this->sources[$key])) {
             throw new InvalidArgumentException("No source registered for key: {$key}");
         }
 

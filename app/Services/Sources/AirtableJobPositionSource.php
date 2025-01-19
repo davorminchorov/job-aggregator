@@ -18,7 +18,7 @@ class AirtableJobPositionSource extends AbstractJobPositionSource
             'filterByFormula' => "IS_AFTER(CREATED_TIME(), DATEADD(NOW(), -1, 'days'))",
         ]);
 
-        if (!$response->successful()) {
+        if (! $response->successful()) {
             throw new \Exception('Failed to fetch data from Airtable: ' . $response->body());
         }
 
@@ -47,7 +47,7 @@ class AirtableJobPositionSource extends AbstractJobPositionSource
 
     public function validateCredentials(array $credentials): bool
     {
-        if (!isset($credentials['api_key'], $credentials['base_id'], $credentials['table_id'])) {
+        if (! isset($credentials['api_key'], $credentials['base_id'], $credentials['table_id'])) {
             return false;
         }
 

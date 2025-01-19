@@ -34,6 +34,7 @@ class SyncJobPositions extends Command
 
         if ($sources->isEmpty()) {
             $this->error('No active job position sources found.');
+
             return self::FAILURE;
         }
 
@@ -51,10 +52,12 @@ class SyncJobPositions extends Command
             if ($this->confirm('Are you sure you want to sync all sources?', true)) {
                 $this->info('Dispatching job to sync all sources...');
                 SyncJobPositionsFromSources::dispatch();
+
                 return self::SUCCESS;
             }
 
             $this->info('Operation cancelled.');
+
             return self::SUCCESS;
         }
 
@@ -69,15 +72,18 @@ class SyncJobPositions extends Command
                 $sourceService->sync($source);
 
                 $this->info("Successfully synced job positions from source: {$source->name}");
+
                 return self::SUCCESS;
             } catch (\Exception $e) {
                 $this->error("Failed to sync job positions from source: {$source->name}");
                 $this->error($e->getMessage());
+
                 return self::FAILURE;
             }
         }
 
         $this->info('Operation cancelled.');
+
         return self::SUCCESS;
     }
 }
